@@ -47,7 +47,7 @@ const Navbar = () => {
                 <Link href="/Login">
                   <button
                     className={`flex items-center border-2 border-slate-300  px-4 py-2 rounded-full font-semibold  transition-all font-['Montserrat']  ${
-                      isScrolled ? "text-black" : "text-white"
+                      isScrolled ? "text-black" : "text-black"
                     }`}
                   >
                     <LogIn className="w-4 h-4 mr-2" />
@@ -90,7 +90,6 @@ const Navbar = () => {
         <div className="fixed inset-0 bg-white/95 backdrop-blur-lg z-30 md:hidden">
           <div className="flex flex-col h-full pt-24 pb-8 px-6">
             {/* Navigation Links */}
-            <div className="flex flex-col items-center justify-center flex-1 space-y-6"></div>
 
             {/* Login/Register Buttons */}
             <div className="flex flex-col items-center space-y-4 w-full max-w-sm mx-auto">

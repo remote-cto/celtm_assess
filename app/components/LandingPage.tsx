@@ -1,104 +1,180 @@
 "use client";
 import React from "react";
-import { Users, ArrowRight, Zap, Target, Globe } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Users, ArrowRight, Zap, Target, Globe, FileText, BarChart3, Award, Brain, TrendingUp, CheckCircle } from "lucide-react";
 
 const LandingPage = () => {
-  const router=useRouter();
+ 
 
-  const stats = [
-    { number: "50K+", label: "Professionals Trained", icon: Users },
-    { number: "500+", label: "Partner Companies", icon: Globe },
-    { number: "95%", label: "Success Rate", icon: Target },
-    { number: "24/7", label: "Global Support", icon: Zap },
+  const features = [
+    {
+      icon: Brain,
+      title: "AI-Powered Analysis",
+      description: "Advanced algorithms analyze your skills and provide detailed insights"
+    },
+    {
+      icon: FileText,
+      title: "Comprehensive Reports",
+      description: "Get detailed reports highlighting your strengths and areas for improvement"
+    },
+    {
+      icon: BarChart3,
+      title: "Skill Mapping",
+      description: "Visual representation of your skill levels across different domains"
+    },
+    {
+      icon: Award,
+      title: "Industry Validation",
+      description: "Assessments recognized by leading companies and institutions"
+    },
+    {
+      icon: TrendingUp,
+      title: "Progress Tracking",
+      description: "Monitor your skill development journey over time"
+    },
+    {
+      icon: CheckCircle,
+      title: "Instant Results",
+      description: "Get your assessment results and reports immediately upon completion"
+    }
   ];
 
-  const handleStartJourney = () => {
-    router.push("/Login");
+  const handleStartAssessment = () => {
+    // router.push("/Login");
+    console.log("Starting assessment...");
   };
 
   return (
-    <>
-      <div className=" min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 text-slate-900 overflow-hidden relative">
-        {/* Hero Section with Video Background */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          {/* Background Video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          >
-            <source src="/video/bg.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-
-
-          <div className="absolute inset-0 bg-black/40 z-5"></div>
-
-          
-          <div className="container mx-auto px-4 sm:px-6 text-center relative z-10 mt-20">
-            <div className="max-w-5xl mx-auto mt-10">
-                   <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-blue-800 to-purple-800 bg-clip-text text-transparent leading-tight px-2">
-                What if Talent could
-                <br />
-                <span className="bg-gradient-to-r from-blue-700 via-purple-700 to-pink-700 bg-clip-text text-transparent">
-                  speak for itself ?
-                </span>
-              </h1>
-
-              <div className="mb-8 sm:mb-12">
-                <p className="text-base sm:text-lg md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed px-4 mb-4 drop-shadow-lg font-['Manrope'] font-bold">
-                  We built the system that listens.
-                </p>
-                <p className="text-base sm:text-lg md:text-2xl text-gray-200 max-w-4xl mx-auto leading-relaxed px-4 drop-shadow-lg font-['Montserrat'] whitespace-nowrap">
-                  CELTM is building INDIA'S FIRST SKILL-BASED LLM — an AI engine that translates
-                  <br />
-                  <span className="font-bold text-white">KNOWLEDGE INTO EMPLOYABILITY.</span>                </p>
-                <p className="text-base sm:text-lg md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed px-4 drop-shadow-lg font-['Manrope'] font-bold">
-                  Discover who's ready. Develop who's rising. Deploy who
-                  matters.
-                </p>
-              </div>
-
-              <div className="flex justify-center items-center mb-8 sm:mb-6 px-4">
-                <button 
-                  onClick={handleStartJourney}
-                 className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-semibold text-base sm:text-lg md:text-xl hover:shadow-2xl hover:shadow-blue-500/25 transition-all transform hover:scale-105 flex items-center hover:from-blue-700 hover:to-purple-700 active:scale-95 justify-center">
-                  Start Your Journey
-                  <ArrowRight className="ml-2 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-
-               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto px-4 mb-8">
-                {stats.map((stat, index) => {
-                  const Icon = stat.icon;
-                  return (
-                    <div
-                      key={index}
-                      className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-6 border border-slate-300 hover:border-blue-400 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 cursor-poManrope group transform hover:scale-105 hover:bg-white/95"
-                    >
-                      <div className="flex items-center justify-center mb-2 sm:mb-3">
-                        <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center group-hover:from-blue-200 group-hover:to-purple-200 transition-all duration-300">
-                          <Icon className="w-4 h-4 sm:w-6 sm:h-6 text-blue-600 group-hover:text-purple-600 transition-colors" />
-                        </div>
-                      </div>
-                      <div className="text-lg sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent mb-1 sm:mb-2">
-                        {stat.number}
-                      </div>
-                      <div className="text-slate-600 text-xs sm:text-sm font-medium">
-                        {stat.label}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
+    <div className=" ">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute top-40 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
       </div>
-    </>
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 ">
+        <div className="container mx-auto text-center relative z-10 max-w-6xl">
+          <div className="mb-8">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 leading-tight mt-25">
+              <span className="bg-gradient-to-r from-slate-800 via-blue-800 to-purple-800 bg-clip-text text-transparent">
+                Discover Your True
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-700 via-purple-700 to-pink-700 bg-clip-text text-transparent">
+                Potential
+              </span>
+            </h1>
+
+            <div className="mb-12 space-y-4">
+              <p className="text-xl sm:text-2xl md:text-3xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-semibold">
+                Take comprehensive skill assessments and get detailed reports
+              </p>
+              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+                Our platform evaluates your skills across multiple domains and provides actionable insights to boost your career
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
+              <button 
+                onClick={handleStartAssessment}
+                className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-full font-semibold text-xl hover:shadow-2xl hover:shadow-blue-500/25 transition-all transform hover:scale-105 flex items-center hover:from-blue-700 hover:to-purple-700 active:scale-95"
+              >
+                Start Assessment
+                <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              </button>
+              
+              
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-5 px-4 sm:px-6 bg-white/50 backdrop-blur-sm">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-800 to-blue-800 bg-clip-text text-transparent mb-6">
+              Why Choose Our Platform?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Experience the most comprehensive skill assessment platform designed for modern professionals
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <div
+                  key={index}
+                  className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200 transform hover:scale-105"
+                >
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300">
+                    <Icon className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-4 group-hover:text-blue-600 transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="container mx-auto text-center max-w-4xl">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+            Ready to Unlock Your Potential?
+          </h2>
+          <p className="text-xl text-blue-100 mb-10 leading-relaxed">
+            Join thousands of professionals who have discovered their strengths and transformed their careers through our comprehensive assessments.
+          </p>
+          <button 
+            onClick={handleStartAssessment}
+            className="group bg-white text-blue-600 px-12 py-6 rounded-full font-bold text-xl hover:shadow-2xl transition-all transform hover:scale-105 flex items-center mx-auto hover:bg-gray-50"
+          >
+            Get Started Today
+            <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+      </section>
+
+      <style jsx>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
+    </div>
   );
 };
 
