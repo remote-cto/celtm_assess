@@ -31,7 +31,9 @@ function getAdminData() {
         return cookieData?.id ? cookieData : null;
       }
       // Fallback to sessionStorage for backward compatibility
-      const sessionData = JSON.parse(sessionStorage.getItem("adminData") || "{}");
+      const sessionData = JSON.parse(
+        sessionStorage.getItem("adminData") || "{}"
+      );
       return sessionData?.id ? sessionData : null;
     } catch {
       return null;
@@ -43,11 +45,11 @@ function getAdminData() {
 // Helper function to get cookie by name
 function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
-  
+
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) {
-    return parts.pop()?.split(';').shift() || null;
+    return parts.pop()?.split(";").shift() || null;
   }
   return null;
 }
@@ -198,7 +200,6 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      <NewHeader />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-2 px-4 sm:px-6 lg:px-8 pt-24 relative overflow-hidden">
         {/* Floating Elements for Visual Appeal */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-200/20 to-purple-200/20 rounded-full blur-3xl animate-pulse"></div>
@@ -216,7 +217,9 @@ const LoginPage: React.FC = () => {
               )}
             </div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-3 transition-all duration-300">
-              {loginType === "student" ? "TIF Student Portal" : "Admin Dashboard"}
+              {loginType === "student"
+                ? "TIF Student Portal"
+                : "Admin Dashboard"}
             </h1>
             <p className="text-gray-600 text-lg leading-relaxed">
               {loginType === "student"
@@ -316,7 +319,9 @@ const LoginPage: React.FC = () => {
                   />
                   <div
                     className={`absolute inset-0 rounded-xl transition-all duration-300 pointer-events-none ${
-                      focusedField === "registration" ? "ring-2 ring-blue-500/20" : ""
+                      focusedField === "registration"
+                        ? "ring-2 ring-blue-500/20"
+                        : ""
                     }`}
                   ></div>
                 </div>
@@ -339,8 +344,8 @@ const LoginPage: React.FC = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   value={loginType === "student" ? password : adminPassword}
-                  onChange={(e) => 
-                    loginType === "student" 
+                  onChange={(e) =>
+                    loginType === "student"
                       ? setPassword(e.target.value)
                       : setAdminPassword(e.target.value)
                   }

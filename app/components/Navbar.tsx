@@ -43,78 +43,6 @@ const Navbar = () => {
             </div>
 
             <div className="hidden md:flex items-center space-x-8">
-              <Link
-                href="/"
-                className={`relative transition-colors duration-300 group font-semibold text-base font-['Montserrat'] ${
-                  isScrolled ? "text-black" : "text-white"
-                }`}
-              >
-                Home
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-              </Link>
-
-              <Link
-                href="/model"
-                className={`relative transition-colors duration-300 group font-semibold text-base font-['Montserrat'] ${
-                  isScrolled ? "text-black" : "text-white"
-                }`}
-              >
-                The Model
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-              </Link>
-
-              {/* <Link
-                href="/mappingtalent"
-                className={`relative transition-colors duration-300 group font-semibold text-base ${
-                  isScrolled 
-                    ? 'text-slate-800 hover:text-slate-900' 
-                    : 'text-slate-800 hover:text-slate-900'
-                }`}
-              >
-                Mapping Talent
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-              </Link> */}
-
-              <Link
-                href="/readiness"
-                className={`relative transition-colors duration-300 group font-semibold text-base font-['Montserrat'] ${
-                  isScrolled ? "text-black" : "text-white"
-                }`}
-              >
-                Readiness
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-              </Link>
-
-              {/* <Link
-                href="/capability"
-                className={`relative transition-colors duration-300 group font-semibold text-base ${
-                  isScrolled 
-                    ? 'text-slate-800 hover:text-slate-900' 
-                    : 'text-slate-800 hover:text-slate-900'
-                }`}
-              >
-                Capability Building
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-              </Link> */}
-              <Link
-                href="/access"
-                className={`relative transition-colors duration-300 group font-semibold text-base font-['Montserrat'] ${
-                  isScrolled ? "text-black" : "text-white"
-                }`}
-              >
-                Access
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-              </Link>
-              <Link
-                href="/contact"
-                className={`relative transition-colors duration-300 group font-semibold text-base font-['Montserrat'] ${
-                  isScrolled ? "text-black" : "text-white"
-                }`}
-              >
-                Let's Talk
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-              </Link>
-
               <div className="flex items-center space-x-3">
                 <Link href="/Login">
                   <button
@@ -162,57 +90,7 @@ const Navbar = () => {
         <div className="fixed inset-0 bg-white/95 backdrop-blur-lg z-30 md:hidden">
           <div className="flex flex-col h-full pt-24 pb-8 px-6">
             {/* Navigation Links */}
-            <div className="flex flex-col items-center justify-center flex-1 space-y-6">
-              <Link
-                href="/"
-                className="font-['Montserrat'] text-lg text-slate-800 hover:text-slate-900 transition-colors hover:scale-110 transform duration-300 font-semibold"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/model"
-                className="font-['Montserrat'] text-lg text-slate-800 hover:text-slate-900 transition-colors hover:scale-110 transform duration-300 font-semibold"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                The Model
-              </Link>
-              {/* <Link
-                href="/mappingtalent"
-                className="text-lg text-slate-800 hover:text-slate-900 transition-colors hover:scale-110 transform duration-300 font-semibold"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Mapping Talent
-              </Link> */}
-              <Link
-                href="/readiness"
-                className="font-['Montserrat'] text-lg text-slate-800 hover:text-slate-900 transition-colors hover:scale-110 transform duration-300 font-semibold"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Readiness
-              </Link>
-              {/* <Link
-                href="/capability"
-                className="text-lg text-slate-800 hover:text-slate-900 transition-colors hover:scale-110 transform duration-300 font-semibold"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Capability Building
-              </Link> */}
-              <Link
-                href="/access"
-                className="font-['Montserrat'] text-lg text-slate-800 hover:text-slate-900 transition-colors hover:scale-110 transform duration-300 font-semibold"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Access
-              </Link>
-              <Link
-                href="/contact"
-                className="font-['Montserrat'] text-lg text-slate-800 hover:text-slate-900 transition-colors hover:scale-110 transform duration-300 font-semibold"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Let's Talk
-              </Link>
-            </div>
+            <div className="flex flex-col items-center justify-center flex-1 space-y-6"></div>
 
             {/* Login/Register Buttons */}
             <div className="flex flex-col items-center space-y-4 w-full max-w-sm mx-auto">
