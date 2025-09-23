@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@font-face {
+  font-family: 'Inter';
+  src: url('/font/Inter_24pt-Medium.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'InterRegular';
+  src: url('/font/Inter_24pt-Regular.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'InterBold';
+  src: url('/font/Inter_24pt-ExtraBold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/font/Montserrat-Medium.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('/font/Manrope-Medium.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
