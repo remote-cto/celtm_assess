@@ -1,6 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Rocket, User, Mail, Hash, GraduationCap, LogOut, SlidersHorizontal, List } from "lucide-react";
+import {
+  Rocket,
+  User,
+  Mail,
+  Hash,
+  GraduationCap,
+  LogOut,
+  SlidersHorizontal,
+  List,
+} from "lucide-react";
 
 interface StudentData {
   id: string;
@@ -22,7 +31,6 @@ function getCookie(name: string): string | null {
   return null;
 }
 
-// Main function to get and parse student data from cookie
 function getStudentData(): StudentData | null {
   if (typeof window !== "undefined") {
     try {
@@ -42,11 +50,10 @@ function getStudentData(): StudentData | null {
   return null;
 }
 
-
 const DashboardPage = () => {
   const [studentData, setStudentData] = useState<StudentData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [testType, setTestType] = useState("adaptive"); // 'adaptive' or 'standard'
+  const [testType, setTestType] = useState("adaptive");
 
   useEffect(() => {
     const data = getStudentData();
@@ -59,21 +66,20 @@ const DashboardPage = () => {
   }, []);
 
   const handleStartAssessment = () => {
-    // Navigate to the assessment page with the selected test type as a query parameter
     window.location.href = `/dashboard/assessment?type=${testType}`;
   };
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('/api/logout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userType: 'student' }),
+      const response = await fetch("/api/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userType: "student" }),
       });
       if (response.redirected) {
         window.location.href = response.url;
       } else {
-        window.location.href = '/Login';
+        window.location.href = "/Login";
       }
     } catch (error) {
       console.error("Logout failed:", error);
@@ -93,7 +99,7 @@ const DashboardPage = () => {
   }
 
   if (!studentData) {
-    return null; 
+    return null;
   }
 
   return (
@@ -135,15 +141,21 @@ const DashboardPage = () => {
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                   <Hash className="h-5 w-5 text-gray-500" />
                   <div>
-                    <p className="text-sm font-medium text-gray-700">Registration Number</p>
-                    <p className="text-sm text-gray-900">{studentData.registration_number}</p>
+                    <p className="text-sm font-medium text-gray-700">
+                      Registration Number
+                    </p>
+                    <p className="text-sm text-gray-900">
+                      {studentData.registration_number}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                   <GraduationCap className="h-5 w-5 text-gray-500" />
                   <div>
                     <p className="text-sm font-medium text-gray-700">College</p>
-                    <p className="text-sm text-gray-900">{studentData.college_name}</p>
+                    <p className="text-sm text-gray-900">
+                      {studentData.college_name}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -162,20 +174,34 @@ const DashboardPage = () => {
 
                 {/* Test Type Selection */}
                 <div className="max-w-md mx-auto mb-8">
-                    <div className="grid grid-cols-2 gap-4 rounded-lg bg-gray-100 p-2">
-                        <button onClick={() => setTestType('adaptive')} className={`flex flex-col items-center justify-center p-4 rounded-md transition-all duration-200 ${testType === 'adaptive' ? 'bg-blue-600 text-white shadow-lg' : 'bg-white text-gray-700 hover:bg-blue-50'}`}>
-                            <SlidersHorizontal className="w-6 h-6 mb-2"/>
-                            <span className="font-semibold">Adaptive Test</span>
-                            {/* <span className="text-xs mt-1 opacity-80">Difficulty adjusts</span> */}
-                        </button>
-                        <button onClick={() => setTestType('standard')} className={`flex flex-col items-center justify-center p-4 rounded-md transition-all duration-200 ${testType === 'standard' ? 'bg-blue-600 text-white shadow-lg' : 'bg-white text-gray-700 hover:bg-blue-50'}`}>
-                            <List className="w-6 h-6 mb-2"/>
-                            <span className="font-semibold">Standard Test</span>
-                             {/* <span className="text-xs mt-1 opacity-80">Random questions</span> */}
-                        </button>
-                    </div>
+                  <div className="grid grid-cols-2 gap-4 rounded-lg bg-gray-100 p-2">
+                    <button
+                      onClick={() => setTestType("adaptive")}
+                      className={`flex flex-col items-center justify-center p-4 rounded-md transition-all duration-200 ${
+                        testType === "adaptive"
+                          ? "bg-blue-600 text-white shadow-lg"
+                          : "bg-white text-gray-700 hover:bg-blue-50"
+                      }`}
+                    >
+                      <SlidersHorizontal className="w-6 h-6 mb-2" />
+                      <span className="font-semibold">Adaptive Test</span>
+                      {/* <span className="text-xs mt-1 opacity-80">Difficulty adjusts</span> */}
+                    </button>
+                    <button
+                      onClick={() => setTestType("standard")}
+                      className={`flex flex-col items-center justify-center p-4 rounded-md transition-all duration-200 ${
+                        testType === "standard"
+                          ? "bg-blue-600 text-white shadow-lg"
+                          : "bg-white text-gray-700 hover:bg-blue-50"
+                      }`}
+                    >
+                      <List className="w-6 h-6 mb-2" />
+                      <span className="font-semibold">Standard Test</span>
+                      {/* <span className="text-xs mt-1 opacity-80">Random questions</span> */}
+                    </button>
+                  </div>
                 </div>
-                
+
                 <button
                   onClick={handleStartAssessment}
                   className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-semibold text-lg rounded-xl shadow hover:bg-blue-700 transition duration-200"
@@ -193,4 +219,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-

@@ -211,7 +211,7 @@ const AssessmentResult: React.FC<Props> = ({
     } else {
       // Clear student session cookie
       clearCookie("studentSession");
-      window.location.href = "/Login";
+      window.location.href = "/";
     }
   };
 
