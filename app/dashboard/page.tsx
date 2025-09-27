@@ -166,12 +166,12 @@ const DashboardPage = () => {
                         <button onClick={() => setTestType('adaptive')} className={`flex flex-col items-center justify-center p-4 rounded-md transition-all duration-200 ${testType === 'adaptive' ? 'bg-blue-600 text-white shadow-lg' : 'bg-white text-gray-700 hover:bg-blue-50'}`}>
                             <SlidersHorizontal className="w-6 h-6 mb-2"/>
                             <span className="font-semibold">Adaptive Test</span>
-                            <span className="text-xs mt-1 opacity-80">Difficulty adjusts</span>
+                            {/* <span className="text-xs mt-1 opacity-80">Difficulty adjusts</span> */}
                         </button>
                         <button onClick={() => setTestType('standard')} className={`flex flex-col items-center justify-center p-4 rounded-md transition-all duration-200 ${testType === 'standard' ? 'bg-blue-600 text-white shadow-lg' : 'bg-white text-gray-700 hover:bg-blue-50'}`}>
                             <List className="w-6 h-6 mb-2"/>
                             <span className="font-semibold">Standard Test</span>
-                             <span className="text-xs mt-1 opacity-80">Random questions</span>
+                             {/* <span className="text-xs mt-1 opacity-80">Random questions</span> */}
                         </button>
                     </div>
                 </div>
