@@ -469,9 +469,7 @@ const LoginPage: React.FC = () => {
             )}
           </form>
         </div>
-        <div className="mt-5">
-          <Footer />
-        </div>
+       
       </div>
 
       <style jsx global>{`

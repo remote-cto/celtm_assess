@@ -390,7 +390,7 @@ const StudentRegistration: React.FC = () => {
   return (
     <>
     
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-2 px-4 sm:px-6 lg:px-8 pt-24 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-2 px-4 sm:px-6 lg:px-8 pt-4 relative overflow-hidden">
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-200/20 to-purple-200/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="max-w-md mx-auto relative z-10">
@@ -684,9 +684,7 @@ const StudentRegistration: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className="mt-10">
-          <Footer />
-        </div>
+       
       </div>
     </>
   );
