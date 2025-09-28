@@ -9,6 +9,8 @@ import {
   LogOut,
   SlidersHorizontal,
   List,
+  BookUser,
+  MoveRight,
 } from "lucide-react";
 
 interface StudentData {
@@ -106,7 +108,7 @@ const DashboardPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-white to-blue-50 px-6 py-12">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
             Welcome to Your Dashboard
           </h1>
           <button
@@ -125,7 +127,7 @@ const DashboardPage = () => {
                 <div className="mx-auto h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
                   <User className="h-8 w-8 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
                   {studentData.name}
                 </h2>
                 <p className="text-gray-600">Student Profile</p>
@@ -139,7 +141,7 @@ const DashboardPage = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <Hash className="h-5 w-5 text-gray-500" />
+                  <BookUser className="h-5 w-5 text-gray-500" />
                   <div>
                     <p className="text-sm font-medium text-gray-700">
                       Registration Number
@@ -165,14 +167,13 @@ const DashboardPage = () => {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-lg border p-8">
               <div className="text-center">
-                <h3 className="text-3xl font-bold text-gray-800 mb-4">
+                <h3 className=" text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                   Ready to Get Started?
                 </h3>
                 <p className="text-lg text-gray-600 mb-8">
                   Choose your assessment mode below to begin your journey.
                 </p>
 
-                {/* Test Type Selection */}
                 <div className="max-w-md mx-auto mb-8">
                   <div className="grid grid-cols-2 gap-4 rounded-lg bg-gray-100 p-2">
                     <button
@@ -185,7 +186,6 @@ const DashboardPage = () => {
                     >
                       <SlidersHorizontal className="w-6 h-6 mb-2" />
                       <span className="font-semibold">Adaptive Test</span>
-                      {/* <span className="text-xs mt-1 opacity-80">Difficulty adjusts</span> */}
                     </button>
                     <button
                       onClick={() => setTestType("standard")}
@@ -204,9 +204,9 @@ const DashboardPage = () => {
 
                 <button
                   onClick={handleStartAssessment}
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-semibold text-lg rounded-xl shadow hover:bg-blue-700 transition duration-200"
+                  className="inline-flex items-center gap-4 px-5 py-4 bg-blue-600 text-white font-semibold text-sm md:text-lg rounded-xl shadow hover:bg-blue-700 transition duration-200"
                 >
-                  <Rocket className="w-5 h-5" />
+                  <MoveRight className="w-5 h-5" />
                   Start Your Assessment
                 </button>
               </div>
