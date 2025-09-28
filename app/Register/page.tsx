@@ -449,11 +449,7 @@ const StudentRegistration: React.FC = () => {
                 Email Address
               </label>
               <div className="relative group">
-                <Mail
-                  className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 ${
-                    focusedField === "email" ? "text-blue-600" : "text-gray-400"
-                  }`}
-                />
+               
                 <input
                   type="email"
                   name="email"
@@ -487,11 +483,7 @@ const StudentRegistration: React.FC = () => {
                 Phone Number
               </label>
               <div className="relative group">
-                <Phone
-                  className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 ${
-                    focusedField === "phone" ? "text-blue-600" : "text-gray-400"
-                  }`}
-                />
+               
                 <input
                   type="tel"
                   name="phone"
