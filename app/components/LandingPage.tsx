@@ -195,16 +195,16 @@ const LandingPage = () => {
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="container mx-auto text-center max-w-4xl">
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+          <h2 className="text-2xl sm:text-5xl font-bold text-white mb-6">
             Ready to Unlock Your Potential?
           </h2>
-          <p className="text-xl text-blue-100 mb-10 leading-relaxed">
+          <p className="text-base md:text-xl text-blue-100 mb-10 leading-relaxed">
             Join thousands of professionals who have discovered their strengths
             and transformed their careers through our comprehensive assessments.
           </p>
           <button
             onClick={handleStartAssessment}
-            className="group bg-white text-blue-600 px-12 py-6 rounded-full font-bold text-xl hover:shadow-2xl transition-all transform hover:scale-105 flex items-center mx-auto hover:bg-gray-50"
+            className="group bg-white text-blue-600 px-6 py-4  md:px-12 md:py-6 rounded-full font-bold text-base md:text-xl hover:shadow-2xl transition-all transform hover:scale-105 flex items-center mx-auto hover:bg-gray-50"
           >
             Get Started Today
             <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
