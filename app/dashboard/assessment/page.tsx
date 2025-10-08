@@ -60,6 +60,7 @@ interface AssessmentState {
   currentQuestion: number;
   questions: Question[];
   answers: { [key: string]: number };
+   responseTimes: { [key: string]: number };
   isCompleted: boolean;
   timeStarted: number;
 }
@@ -91,6 +92,7 @@ const AssessmentPage: React.FC = () => {
     currentQuestion: 0,
     questions: [],
     answers: {},
+    responseTimes: {},
     isCompleted: false,
     timeStarted: Date.now(),
   });
@@ -107,6 +109,7 @@ const AssessmentPage: React.FC = () => {
   const [questionsLoading, setQuestionsLoading] = useState(true);
   const [questionsError, setQuestionsError] = useState<string | null>(null);
   const [testType, setTestType] = useState<"adaptive" | "standard">("standard");
+  const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
 
   const [backendResults, setBackendResults] = useState<BackendResponse | null>(
     null
@@ -202,6 +205,7 @@ const AssessmentPage: React.FC = () => {
             tenant_id: student.tenant_id || 1,
             assessment_type_id: 1,
             answers: state.answers,
+            responseTimes: state.responseTimes,
             questions: state.questions.map((q) => ({
               id: q.id,
               correctAnswer: q.correctAnswer,
@@ -248,29 +252,40 @@ const AssessmentPage: React.FC = () => {
     setSelectedAnswer(index);
   };
 
-  const handleNextQuestion = () => {
-    if (selectedAnswer === null) return;
+const handleNextQuestion = () => {
+  if (selectedAnswer === null) return;
 
-    const newAnswers = {
-      ...state.answers,
-      [state.questions[state.currentQuestion].id]: selectedAnswer,
-    };
-
-    if (state.currentQuestion < state.questions.length - 1) {
-      setState((prev) => ({
-        ...prev,
-        currentQuestion: prev.currentQuestion + 1,
-        answers: newAnswers,
-      }));
-      setSelectedAnswer(null);
-    } else {
-      setState((prev) => ({
-        ...prev,
-        answers: newAnswers,
-        isCompleted: true,
-      }));
-    }
+  const responseTime = Math.floor((Date.now() - questionStartTime) / 1000);
+  
+  const newAnswers = {
+    ...state.answers,
+    [state.questions[state.currentQuestion].id]: selectedAnswer,
   };
+
+  // Store response time alongside answer
+  const newResponseTimes = {
+    ...state.responseTimes,
+    [state.questions[state.currentQuestion].id]: responseTime,
+  };
+
+  if (state.currentQuestion < state.questions.length - 1) {
+    setState((prev) => ({
+      ...prev,
+      currentQuestion: prev.currentQuestion + 1,
+      answers: newAnswers,
+      responseTimes: newResponseTimes, // Add this field
+    }));
+    setSelectedAnswer(null);
+    setQuestionStartTime(Date.now()); // Reset timer for next question
+  } else {
+    setState((prev) => ({
+      ...prev,
+      answers: newAnswers,
+      responseTimes: newResponseTimes,
+      isCompleted: true,
+    }));
+  }
+};
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
