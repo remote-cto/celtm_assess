@@ -7,7 +7,8 @@ import pool from "@/lib/database";
 const QUESTION_SELECT_FIELDS = `
   qb.id, qb.question, qb.option_a, qb.option_b, qb.option_c, qb.option_d, qb.correct_answer,
   t.name AS topic, s.name AS section, l.name AS level,
-  t.weightage AS topic_weightage, l.weightage AS level_weightage
+  t.weightage AS topic_weightage, l.weightage AS level_weightage,
+  qb.video_url  
 `;
 
 const QUESTION_JOINS = `
@@ -40,33 +41,33 @@ export async function GET(req: NextRequest) {
           (SELECT ${QUESTION_SELECT_FIELDS}, 'foundational' as section_type
            ${QUESTION_JOINS} 
            ${BASE_WHERE_CLAUSE} AND s.id = 1 AND l.name = 'Basic' 
-           ORDER BY RANDOM() LIMIT 6)
+           ORDER BY RANDOM() )
           UNION ALL
           (SELECT ${QUESTION_SELECT_FIELDS}, 'foundational' as section_type
            ${QUESTION_JOINS} 
            ${BASE_WHERE_CLAUSE} AND s.id = 1 AND l.name = 'Intermediate' 
-           ORDER BY RANDOM() LIMIT 6)
+           ORDER BY RANDOM() )
           UNION ALL
           (SELECT ${QUESTION_SELECT_FIELDS}, 'foundational' as section_type
            ${QUESTION_JOINS} 
            ${BASE_WHERE_CLAUSE} AND s.id = 1 AND l.name = 'Advanced' 
-           ORDER BY RANDOM() LIMIT 6)
+           ORDER BY RANDOM() )
           UNION ALL
           -- Industrial Section (6 questions per level)
           (SELECT ${QUESTION_SELECT_FIELDS}, 'industrial' as section_type
            ${QUESTION_JOINS} 
            ${BASE_WHERE_CLAUSE} AND s.id = 2 AND l.name = 'Basic' 
-           ORDER BY RANDOM() LIMIT 6)
+           ORDER BY RANDOM() )
           UNION ALL
           (SELECT ${QUESTION_SELECT_FIELDS}, 'industrial' as section_type
            ${QUESTION_JOINS} 
            ${BASE_WHERE_CLAUSE} AND s.id = 2 AND l.name = 'Intermediate' 
-           ORDER BY RANDOM() LIMIT 6)
+           ORDER BY RANDOM() )
           UNION ALL
           (SELECT ${QUESTION_SELECT_FIELDS}, 'industrial' as section_type
            ${QUESTION_JOINS} 
            ${BASE_WHERE_CLAUSE} AND s.id = 2 AND l.name = 'Advanced' 
-           ORDER BY RANDOM() LIMIT 6)
+           ORDER BY RANDOM() )
         )
         SELECT * FROM adaptive_questions;
       `;
@@ -78,13 +79,13 @@ export async function GET(req: NextRequest) {
           (SELECT ${QUESTION_SELECT_FIELDS}, 'foundational' as section_type
            ${QUESTION_JOINS}
            ${BASE_WHERE_CLAUSE} AND s.id = 1
-           ORDER BY RANDOM() LIMIT 18)
+           ORDER BY RANDOM() )
           UNION ALL
           -- Industrial Section (Random 18)
           (SELECT ${QUESTION_SELECT_FIELDS}, 'industrial' as section_type
            ${QUESTION_JOINS}
            ${BASE_WHERE_CLAUSE} AND s.id = 2
-           ORDER BY RANDOM() LIMIT 18)
+           ORDER BY RANDOM() )
         )
         SELECT * FROM standard_questions;
       `;
@@ -109,6 +110,7 @@ export async function GET(req: NextRequest) {
         correctAnswer: correctAnswerIndex,
         topicWeightage: q.topic_weightage,
         levelWeightage: q.level_weightage,
+        video_url: q.video_url,
         testType: testType,
       };
     });

@@ -15,6 +15,7 @@ interface Question {
   options: string[];
   correctAnswer: number;
   section: "Foundational" | "Industrial";
+  video_url?: string; 
 }
 
 interface TopicScore {
@@ -60,7 +61,7 @@ interface AssessmentState {
   currentQuestion: number;
   questions: Question[];
   answers: { [key: string]: number };
-   responseTimes: { [key: string]: number };
+    responseTimes: { [key: string]: number };
   isCompleted: boolean;
   timeStarted: number;
 }
@@ -293,7 +294,7 @@ const handleNextQuestion = () => {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
- 
+  
 
   if (studentLoading) {
     return (
@@ -539,9 +540,27 @@ const handleNextQuestion = () => {
           </div>
 
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
-              {currentQuestion.question}
-            </h2>
+            {/* <<< MODIFICATION START >>> */}
+            {currentQuestion.video_url ? (
+              <div className="mb-6">
+                <video
+                  key={currentQuestion.id} 
+                  className="w-full rounded-lg"
+                  controls
+                  autoPlay
+                  src={currentQuestion.video_url}
+                >
+                  Your browser does not support the video tag.
+                </video>
+                <p className="text-lg text-gray-700 mt-4">{currentQuestion.question}</p>
+              </div>
+            ) : (
+              <h2 className="text-xl font-semibold text-gray-900 mb-6">
+                {currentQuestion.question}
+              </h2>
+            )}
+            {/* <<< MODIFICATION END >>> */}
+
             <div className="space-y-3">
               {currentQuestion.options.map((option, index) => (
                 <button
