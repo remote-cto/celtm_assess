@@ -15,7 +15,6 @@ import {
   CheckCircle,
   ArrowRight,
   Bell,
- 
 } from "lucide-react";
 
 interface StudentData {
@@ -24,6 +23,13 @@ interface StudentData {
   email: string;
   registration_number: string;
   college_name: string;
+  org_id?: number; // Added org_id
+}
+
+interface AssessmentType {
+  id: number;
+  name: string;
+  description: string;
 }
 
 // Helper function to get cookie by name
@@ -60,8 +66,9 @@ function getStudentData(): StudentData | null {
 const DashboardPage = () => {
   const [studentData, setStudentData] = useState<StudentData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [testType, setTestType] = useState("adaptive");
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [testType, setTestType] = useState("standard");
+  const [assessmentTypes, setAssessmentTypes] = useState<AssessmentType[]>([]);
+  const [selectedAssessmentType, setSelectedAssessmentType] = useState<number | null>(null);
 
   useEffect(() => {
     const data = getStudentData();
@@ -73,8 +80,31 @@ const DashboardPage = () => {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    if (studentData) {
+      const fetchAssessmentTypes = async () => {
+        try {
+          const org_id = studentData.org_id || 1; // Default to 1 if not present
+          const response = await fetch(`/api/assessment-types?org_id=${org_id}`);
+          const data = await response.json();
+          if (data.success && data.assessment_types.length > 0) {
+            setAssessmentTypes(data.assessment_types);
+            setSelectedAssessmentType(data.assessment_types[0].id);
+          }
+        } catch (error) {
+          console.error("Failed to fetch assessment types:", error);
+        }
+      };
+      fetchAssessmentTypes();
+    }
+  }, [studentData]);
+
   const handleStartAssessment = () => {
-    window.location.href = `/dashboard/assessment?type=${testType}`;
+    if (selectedAssessmentType) {
+      window.location.href = `/dashboard/assessment?type=${testType}&assessment_type_id=${selectedAssessmentType}`;
+    } else {
+      alert("Please select an assessment type.");
+    }
   };
 
   const handleLogout = async () => {
@@ -110,8 +140,6 @@ const DashboardPage = () => {
     return null;
   }
 
-
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -130,14 +158,12 @@ const DashboardPage = () => {
               </div>
             </div>
 
-        
-
             {/* User Menu */}
             <div className="flex items-center space-x-4">
               <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                 <Bell className="h-5 w-5" />
               </button>
-              
+
               <div className="flex items-center space-x-3">
                 <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <User className="h-4 w-4 text-blue-600" />
@@ -186,7 +212,7 @@ const DashboardPage = () => {
                     <p className="text-sm text-gray-900 truncate">{studentData.email}</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <BookUser className="h-5 w-5 text-gray-400" />
                   <div>
@@ -194,7 +220,7 @@ const DashboardPage = () => {
                     <p className="text-sm text-gray-900">{studentData.registration_number}</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <GraduationCap className="h-5 w-5 text-gray-400" />
                   <div>
@@ -203,8 +229,6 @@ const DashboardPage = () => {
                   </div>
                 </div>
               </div>
-
-             
             </div>
           </div>
 
@@ -229,13 +253,32 @@ const DashboardPage = () => {
               </div>
             </div>
 
-         
-
             {/* Assessment Section */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Start New Assessment</h3>
-                <p className="text-gray-600">Choose your preferred assessment type and begin your test.</p>
+                <p className="text-gray-600">Choose your preferred assessment and begin your test.</p>
+              </div>
+
+              {/* Assessment Type Selection Dropdown */}
+              <div className="max-w-2xl mx-auto mb-8">
+                <label htmlFor="assessment-type" className="block text-sm font-medium text-gray-700 mb-2">Select Assessment</label>
+                <select
+                  id="assessment-type"
+                  name="assessment-type"
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                  value={selectedAssessmentType || ''}
+                  onChange={(e) => setSelectedAssessmentType(Number(e.target.value))}
+                  disabled={assessmentTypes.length === 0}
+                >
+                  {assessmentTypes.length > 0 ? (
+                    assessmentTypes.map((assessment) => (
+                      <option key={assessment.id} value={assessment.id}>{assessment.name}</option>
+                    ))
+                  ) : (
+                    <option>Loading assessments...</option>
+                  )}
+                </select>
               </div>
 
               {/* Test Type Selection */}
@@ -268,7 +311,6 @@ const DashboardPage = () => {
                         )}
                       </div>
                       <h4 className="text-lg font-semibold text-gray-900 mb-2">Adaptive Test</h4>
-                      
                     </div>
                   </label>
 
@@ -299,7 +341,6 @@ const DashboardPage = () => {
                         )}
                       </div>
                       <h4 className="text-lg font-semibold text-gray-900 mb-2">Standard Test</h4>
-                      
                     </div>
                   </label>
                 </div>

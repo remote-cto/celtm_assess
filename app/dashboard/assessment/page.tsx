@@ -1,5 +1,3 @@
-//app/dashboard/assessment/page.tsx
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { XCircle, Clock, LogIn } from "lucide-react";
@@ -15,7 +13,7 @@ interface Question {
   options: string[];
   correctAnswer: number;
   section: "Foundational" | "Industrial";
-  video_url?: string; 
+  video_url?: string;
 }
 
 interface TopicScore {
@@ -61,7 +59,7 @@ interface AssessmentState {
   currentQuestion: number;
   questions: Question[];
   answers: { [key: string]: number };
-    responseTimes: { [key: string]: number };
+  responseTimes: { [key: string]: number };
   isCompleted: boolean;
   timeStarted: number;
 }
@@ -104,13 +102,13 @@ const AssessmentPage: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  // FIX: Add state to manage student and question loading separately
   const [student, setStudent] = useState<StudentData | null>(null);
   const [studentLoading, setStudentLoading] = useState(true);
   const [questionsLoading, setQuestionsLoading] = useState(true);
   const [questionsError, setQuestionsError] = useState<string | null>(null);
   const [testType, setTestType] = useState<"adaptive" | "standard">("standard");
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
+  const [assessmentTypeId, setAssessmentTypeId] = useState<number | null>(null);
 
   const [backendResults, setBackendResults] = useState<BackendResponse | null>(
     null
@@ -124,14 +122,12 @@ const AssessmentPage: React.FC = () => {
     } else {
       console.error("No student data found in cookie");
     }
-    setStudentLoading(false); // We are done checking for student data
+    setStudentLoading(false);
   }, []);
 
   // Load questions, but only if a student is found
   useEffect(() => {
-    
     if (!student) {
-      // If we are done checking for the student and there is none, stop loading questions.
       if (!studentLoading) {
         setQuestionsLoading(false);
       }
@@ -143,12 +139,23 @@ const AssessmentPage: React.FC = () => {
         setQuestionsLoading(true);
         setQuestionsError(null);
 
-        // Get test type from URL
         const urlParams = new URLSearchParams(window.location.search);
         const urlTestType = urlParams.get("type") || "standard";
+        const urlAssessmentTypeId = urlParams.get("assessment_type_id");
+
+        if (!urlAssessmentTypeId) {
+          setQuestionsError("Assessment Type ID is missing from URL.");
+          setQuestionsLoading(false);
+          return;
+        }
+
+        const numericId = parseInt(urlAssessmentTypeId, 10);
+        setAssessmentTypeId(numericId);
         setTestType(urlTestType as "adaptive" | "standard");
 
-        const response = await fetch(`/api/assessment?type=${urlTestType}`);
+        const response = await fetch(
+          `/api/assessment?type=${urlTestType}&assessment_type_id=${numericId}`
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -179,7 +186,7 @@ const AssessmentPage: React.FC = () => {
     fetchQuestions();
   }, [student, studentLoading]);
 
-  // Timer useEffect (no changes needed)
+  // Timer useEffect
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeElapsed(Math.floor((Date.now() - state.timeStarted) / 1000));
@@ -187,10 +194,10 @@ const AssessmentPage: React.FC = () => {
     return () => clearInterval(timer);
   }, [state.timeStarted]);
 
-  // Save result useEffect (no changes needed)
+  // Save result useEffect
   useEffect(() => {
     const saveResult = async () => {
-      if (!student) return;
+      if (!student || !assessmentTypeId) return;
 
       setIsSaving(true);
       setSaveError(null);
@@ -204,7 +211,7 @@ const AssessmentPage: React.FC = () => {
           body: JSON.stringify({
             academic_user_id: parseInt(student.id),
             tenant_id: student.tenant_id || 1,
-            assessment_type_id: 1,
+            assessment_type_id: assessmentTypeId, // Use dynamic ID
             answers: state.answers,
             responseTimes: state.responseTimes,
             questions: state.questions.map((q) => ({
@@ -236,7 +243,13 @@ const AssessmentPage: React.FC = () => {
       }
     };
 
-    if (state.isCompleted && !assessmentId && !isSaving && student) {
+    if (
+      state.isCompleted &&
+      !assessmentId &&
+      !isSaving &&
+      student &&
+      assessmentTypeId
+    ) {
       saveResult();
     }
   }, [
@@ -247,54 +260,52 @@ const AssessmentPage: React.FC = () => {
     state.answers,
     state.questions,
     state.timeStarted,
+    assessmentTypeId, // Add dependency
   ]);
 
   const handleAnswerSelect = (index: number) => {
     setSelectedAnswer(index);
   };
 
-const handleNextQuestion = () => {
-  if (selectedAnswer === null) return;
+  const handleNextQuestion = () => {
+    if (selectedAnswer === null) return;
 
-  const responseTime = Math.floor((Date.now() - questionStartTime) / 1000);
-  
-  const newAnswers = {
-    ...state.answers,
-    [state.questions[state.currentQuestion].id]: selectedAnswer,
+    const responseTime = Math.floor((Date.now() - questionStartTime) / 1000);
+
+    const newAnswers = {
+      ...state.answers,
+      [state.questions[state.currentQuestion].id]: selectedAnswer,
+    };
+
+    const newResponseTimes = {
+      ...state.responseTimes,
+      [state.questions[state.currentQuestion].id]: responseTime,
+    };
+
+    if (state.currentQuestion < state.questions.length - 1) {
+      setState((prev) => ({
+        ...prev,
+        currentQuestion: prev.currentQuestion + 1,
+        answers: newAnswers,
+        responseTimes: newResponseTimes,
+      }));
+      setSelectedAnswer(null);
+      setQuestionStartTime(Date.now());
+    } else {
+      setState((prev) => ({
+        ...prev,
+        answers: newAnswers,
+        responseTimes: newResponseTimes,
+        isCompleted: true,
+      }));
+    }
   };
-
-  // Store response time alongside answer
-  const newResponseTimes = {
-    ...state.responseTimes,
-    [state.questions[state.currentQuestion].id]: responseTime,
-  };
-
-  if (state.currentQuestion < state.questions.length - 1) {
-    setState((prev) => ({
-      ...prev,
-      currentQuestion: prev.currentQuestion + 1,
-      answers: newAnswers,
-      responseTimes: newResponseTimes, // Add this field
-    }));
-    setSelectedAnswer(null);
-    setQuestionStartTime(Date.now()); // Reset timer for next question
-  } else {
-    setState((prev) => ({
-      ...prev,
-      answers: newAnswers,
-      responseTimes: newResponseTimes,
-      isCompleted: true,
-    }));
-  }
-};
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
-
-  
 
   if (studentLoading) {
     return (
@@ -477,7 +488,6 @@ const handleNextQuestion = () => {
 
   const currentQuestion = state.questions[state.currentQuestion];
 
-  // This is the main assessment UI
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
       <div className="max-w-4xl mx-auto">
@@ -540,11 +550,10 @@ const handleNextQuestion = () => {
           </div>
 
           <div className="mb-8">
-            {/* <<< MODIFICATION START >>> */}
             {currentQuestion.video_url ? (
               <div className="mb-6">
                 <video
-                  key={currentQuestion.id} 
+                  key={currentQuestion.id}
                   className="w-full rounded-lg"
                   controls
                   autoPlay
@@ -559,7 +568,6 @@ const handleNextQuestion = () => {
                 {currentQuestion.question}
               </h2>
             )}
-            {/* <<< MODIFICATION END >>> */}
 
             <div className="space-y-3">
               {currentQuestion.options.map((option, index) => (

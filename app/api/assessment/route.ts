@@ -1,5 +1,3 @@
-//app/api/assessment/route.ts
-
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/database";
 
@@ -8,7 +6,7 @@ const QUESTION_SELECT_FIELDS = `
   qb.id, qb.question, qb.option_a, qb.option_b, qb.option_c, qb.option_d, qb.correct_answer,
   t.name AS topic, s.name AS section, l.name AS level,
   t.weightage AS topic_weightage, l.weightage AS level_weightage,
-  qb.video_url  
+  qb.video_url
 `;
 
 const QUESTION_JOINS = `
@@ -18,80 +16,65 @@ const QUESTION_JOINS = `
   JOIN level l ON qb.level_id = l.id
 `;
 
-const BASE_WHERE_CLAUSE = `
-  WHERE qb.is_active = TRUE
-    AND t.is_active = TRUE
-    AND s.is_active = TRUE
-    AND l.is_active = TRUE
-    AND qb.assessment_type_id = $1
-`;
-
 export async function GET(req: NextRequest) {
   const url = new URL(req.url || "");
-  const assessmentTypeId = url.searchParams.get("assessment_type_id") || "1";
+  const assessmentTypeIdParam = url.searchParams.get("assessment_type_id");
   const testType = url.searchParams.get("type") || "standard";
+
+  if (!assessmentTypeIdParam) {
+    return NextResponse.json(
+      { error: "assessment_type_id is required" },
+      { status: 400 }
+    );
+  }
+
+  const assessmentTypeId = parseInt(assessmentTypeIdParam, 10);
+  if (isNaN(assessmentTypeId)) {
+    return NextResponse.json(
+      { error: "Invalid assessment_type_id" },
+      { status: 400 }
+    );
+  }
 
   try {
     let query = "";
+    const params = [assessmentTypeId];
 
-    if (testType === "adaptive") {
+    // Adaptive test is specific to General Assessment (ID 1)
+    if (testType === "adaptive" && assessmentTypeId === 1) {
       query = `
         WITH adaptive_questions AS (
-          -- Foundational Section (6 questions per level)
-          (SELECT ${QUESTION_SELECT_FIELDS}, 'foundational' as section_type
-           ${QUESTION_JOINS} 
-           ${BASE_WHERE_CLAUSE} AND s.id = 1 AND l.name = 'Basic' 
-           ORDER BY RANDOM() )
+          -- Foundational Section
+          (SELECT ${QUESTION_SELECT_FIELDS} ${QUESTION_JOINS} WHERE qb.assessment_type_id = $1 AND s.id = 1 AND l.name = 'Basic' AND qb.is_active = TRUE AND t.is_active = TRUE AND s.is_active = TRUE AND l.is_active = TRUE ORDER BY RANDOM())
           UNION ALL
-          (SELECT ${QUESTION_SELECT_FIELDS}, 'foundational' as section_type
-           ${QUESTION_JOINS} 
-           ${BASE_WHERE_CLAUSE} AND s.id = 1 AND l.name = 'Intermediate' 
-           ORDER BY RANDOM() )
+          (SELECT ${QUESTION_SELECT_FIELDS} ${QUESTION_JOINS} WHERE qb.assessment_type_id = $1 AND s.id = 1 AND l.name = 'Intermediate' AND qb.is_active = TRUE AND t.is_active = TRUE AND s.is_active = TRUE AND l.is_active = TRUE ORDER BY RANDOM())
           UNION ALL
-          (SELECT ${QUESTION_SELECT_FIELDS}, 'foundational' as section_type
-           ${QUESTION_JOINS} 
-           ${BASE_WHERE_CLAUSE} AND s.id = 1 AND l.name = 'Advanced' 
-           ORDER BY RANDOM() )
+          (SELECT ${QUESTION_SELECT_FIELDS} ${QUESTION_JOINS} WHERE qb.assessment_type_id = $1 AND s.id = 1 AND l.name = 'Advanced' AND qb.is_active = TRUE AND t.is_active = TRUE AND s.is_active = TRUE AND l.is_active = TRUE ORDER BY RANDOM())
           UNION ALL
-          -- Industrial Section (6 questions per level)
-          (SELECT ${QUESTION_SELECT_FIELDS}, 'industrial' as section_type
-           ${QUESTION_JOINS} 
-           ${BASE_WHERE_CLAUSE} AND s.id = 2 AND l.name = 'Basic' 
-           ORDER BY RANDOM() )
+          -- Industrial Section
+          (SELECT ${QUESTION_SELECT_FIELDS} ${QUESTION_JOINS} WHERE qb.assessment_type_id = $1 AND s.id = 2 AND l.name = 'Basic' AND qb.is_active = TRUE AND t.is_active = TRUE AND s.is_active = TRUE AND l.is_active = TRUE ORDER BY RANDOM())
           UNION ALL
-          (SELECT ${QUESTION_SELECT_FIELDS}, 'industrial' as section_type
-           ${QUESTION_JOINS} 
-           ${BASE_WHERE_CLAUSE} AND s.id = 2 AND l.name = 'Intermediate' 
-           ORDER BY RANDOM() )
+          (SELECT ${QUESTION_SELECT_FIELDS} ${QUESTION_JOINS} WHERE qb.assessment_type_id = $1 AND s.id = 2 AND l.name = 'Intermediate' AND qb.is_active = TRUE AND t.is_active = TRUE AND s.is_active = TRUE AND l.is_active = TRUE ORDER BY RANDOM())
           UNION ALL
-          (SELECT ${QUESTION_SELECT_FIELDS}, 'industrial' as section_type
-           ${QUESTION_JOINS} 
-           ${BASE_WHERE_CLAUSE} AND s.id = 2 AND l.name = 'Advanced' 
-           ORDER BY RANDOM() )
+          (SELECT ${QUESTION_SELECT_FIELDS} ${QUESTION_JOINS} WHERE qb.assessment_type_id = $1 AND s.id = 2 AND l.name = 'Advanced' AND qb.is_active = TRUE AND t.is_active = TRUE AND s.is_active = TRUE AND l.is_active = TRUE ORDER BY RANDOM())
         )
         SELECT * FROM adaptive_questions;
       `;
     } else {
-      // STANDARD: Random mix (18 per section)
+      // Standard test for any assessment type
       query = `
-        WITH standard_questions AS (
-          -- Foundational Section (Random 18)
-          (SELECT ${QUESTION_SELECT_FIELDS}, 'foundational' as section_type
-           ${QUESTION_JOINS}
-           ${BASE_WHERE_CLAUSE} AND s.id = 1
-           ORDER BY RANDOM() )
-          UNION ALL
-          -- Industrial Section (Random 18)
-          (SELECT ${QUESTION_SELECT_FIELDS}, 'industrial' as section_type
-           ${QUESTION_JOINS}
-           ${BASE_WHERE_CLAUSE} AND s.id = 2
-           ORDER BY RANDOM() )
-        )
-        SELECT * FROM standard_questions;
+        SELECT ${QUESTION_SELECT_FIELDS}
+        ${QUESTION_JOINS}
+        WHERE qb.assessment_type_id = $1
+          AND qb.is_active = TRUE
+          AND t.is_active = TRUE
+          AND s.is_active = TRUE
+          AND l.is_active = TRUE
+        ORDER BY RANDOM();
       `;
     }
 
-    const result = await pool.query(query, [assessmentTypeId]);
+    const result = await pool.query(query, params);
 
     // Shuffle final results
     const shuffledRows = result.rows.sort(() => Math.random() - 0.5);
