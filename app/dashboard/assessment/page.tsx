@@ -86,6 +86,24 @@ interface BackendResponse {
   topic_scores: TopicScore[];
 }
 
+// Helper function to convert Google Drive URLs to embeddable format
+const convertGoogleDriveUrl = (url: string): string => {
+  if (!url) return url;
+  
+  // Check if it's a Google Drive link
+  if (url.includes('drive.google.com')) {
+    // Extract the file ID from various Google Drive URL formats
+    const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (fileIdMatch && fileIdMatch[1]) {
+      const fileId = fileIdMatch[1];
+      // Convert to direct preview URL
+      return `https://drive.google.com/file/d/${fileId}/preview`;
+    }
+  }
+  
+  return url;
+};
+
 const AssessmentPage: React.FC = () => {
   const [state, setState] = useState<AssessmentState>({
     currentQuestion: 0,
@@ -211,7 +229,7 @@ const AssessmentPage: React.FC = () => {
           body: JSON.stringify({
             academic_user_id: parseInt(student.id),
             tenant_id: student.tenant_id || 1,
-            assessment_type_id: assessmentTypeId, // Use dynamic ID
+            assessment_type_id: assessmentTypeId,
             answers: state.answers,
             responseTimes: state.responseTimes,
             questions: state.questions.map((q) => ({
@@ -260,7 +278,8 @@ const AssessmentPage: React.FC = () => {
     state.answers,
     state.questions,
     state.timeStarted,
-    assessmentTypeId, // Add dependency
+    state.responseTimes,
+    assessmentTypeId,
   ]);
 
   const handleAnswerSelect = (index: number) => {
@@ -552,15 +571,28 @@ const AssessmentPage: React.FC = () => {
           <div className="mb-8">
             {currentQuestion.video_url ? (
               <div className="mb-6">
-                <video
-                  key={currentQuestion.id}
-                  className="w-full rounded-lg"
-                  controls
-                  autoPlay
-                  src={currentQuestion.video_url}
-                >
-                  Your browser does not support the video tag.
-                </video>
+                {currentQuestion.video_url.includes('drive.google.com') ? (
+                  // Use iframe for Google Drive videos
+                  <iframe
+                    key={currentQuestion.id}
+                    className="w-full rounded-lg aspect-video"
+                    src={convertGoogleDriveUrl(currentQuestion.video_url)}
+                    allow="autoplay"
+                    allowFullScreen
+                    style={{ minHeight: '400px' }}
+                  />
+                ) : (
+                  // Use video tag for direct video files
+                  <video
+                    key={currentQuestion.id}
+                    className="w-full rounded-lg"
+                    controls
+                    autoPlay
+                    src={currentQuestion.video_url}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                )}
                 <p className="text-lg text-gray-700 mt-4">{currentQuestion.question}</p>
               </div>
             ) : (

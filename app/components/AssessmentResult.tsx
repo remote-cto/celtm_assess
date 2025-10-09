@@ -113,7 +113,7 @@ const AssessmentResult: React.FC<Props> = ({
     )
     .map((topic) => topic.topic_name);
 
-  useEffect(() => {
+useEffect(() => {
     if (topicScores.length === 0) return;
 
     const canvas = document.getElementById("radarChart") as HTMLCanvasElement;
@@ -139,6 +139,7 @@ const AssessmentResult: React.FC<Props> = ({
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        animation: false, // Disable all animations
         scales: {
           r: {
             suggestedMin: 0,
