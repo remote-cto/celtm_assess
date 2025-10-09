@@ -261,24 +261,43 @@ const DashboardPage = () => {
               </div>
 
               {/* Assessment Type Selection Dropdown */}
+              {/* Assessment Type Selection Dropdown */}
               <div className="max-w-2xl mx-auto mb-8">
-                <label htmlFor="assessment-type" className="block text-sm font-medium text-gray-700 mb-2">Select Assessment</label>
-                <select
-                  id="assessment-type"
-                  name="assessment-type"
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-                  value={selectedAssessmentType || ''}
-                  onChange={(e) => setSelectedAssessmentType(Number(e.target.value))}
-                  disabled={assessmentTypes.length === 0}
-                >
-                  {assessmentTypes.length > 0 ? (
-                    assessmentTypes.map((assessment) => (
-                      <option key={assessment.id} value={assessment.id}>{assessment.name}</option>
-                    ))
-                  ) : (
-                    <option>Loading assessments...</option>
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border-2 border-blue-200">
+                  <div className="flex items-center mb-3">
+                    <Settings className="h-5 w-5 text-blue-600 mr-2" />
+                    <label htmlFor="assessment-type" className="block text-base font-semibold text-gray-900">
+                      Select Assessment Type
+                    </label>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">Choose the assessment you want to take</p>
+                  <select
+                    id="assessment-type"
+                    name="assessment-type"
+                    className="block w-full px-4 py-3.5 text-base font-medium border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-lg shadow-sm bg-white hover:border-blue-400 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    value={selectedAssessmentType || ''}
+                    onChange={(e) => setSelectedAssessmentType(Number(e.target.value))}
+                    disabled={assessmentTypes.length === 0}
+                  >
+                    {assessmentTypes.length > 0 ? (
+                      assessmentTypes.map((assessment) => (
+                        <option key={assessment.id} value={assessment.id} className="py-2">
+                          {assessment.name}
+                        </option>
+                      ))
+                    ) : (
+                      <option>Loading assessments...</option>
+                    )}
+                  </select>
+                  {selectedAssessmentType && assessmentTypes.length > 0 && (
+                    <div className="mt-3 flex items-center text-sm text-blue-700">
+                      <CheckCircle className="h-4 w-4 mr-1.5" />
+                      <span className="font-medium">
+                        {assessmentTypes.find(a => a.id === selectedAssessmentType)?.description || 'Assessment selected'}
+                      </span>
+                    </div>
                   )}
-                </select>
+                </div>
               </div>
 
               {/* Test Type Selection */}
