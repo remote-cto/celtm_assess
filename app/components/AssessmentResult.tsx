@@ -281,7 +281,7 @@ const AssessmentResult: React.FC<Props> = ({
       </div>
 
       {/* Assessment Summary - Updated to include section scores */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
         <div className="bg-blue-50 p-4 rounded-lg text-center">
           <h3 className="text-lg font-semibold text-blue-700">Basic Score</h3>
           <p
@@ -310,7 +310,7 @@ const AssessmentResult: React.FC<Props> = ({
         </div>
 
         {/* Foundational Score */}
-        {foundationalScore !== null && foundationalScore !== undefined && (
+        {/* {foundationalScore !== null && foundationalScore !== undefined && (
           <div className="bg-orange-50 p-4 rounded-lg text-center">
             <h3 className="text-xs md:text-lg font-semibold text-orange-700">
               Foundational
@@ -324,10 +324,10 @@ const AssessmentResult: React.FC<Props> = ({
             </p>
             <p className="text-sm text-gray-600">Core Skills</p>
           </div>
-        )}
+        )} */}
 
         {/* Industrial Score */}
-        {industrialScore !== null && industrialScore !== undefined && (
+        {/* {industrialScore !== null && industrialScore !== undefined && (
           <div className="bg-cyan-50 p-4 rounded-lg text-center">
             <h3 className="text-lg font-semibold text-cyan-700">Industrial</h3>
             <p
@@ -337,11 +337,11 @@ const AssessmentResult: React.FC<Props> = ({
             </p>
             <p className="text-sm text-gray-600">Industry Skills</p>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Section Analysis - New section */}
-      {(foundationalScore !== null || industrialScore !== null) && (
+      {/* {(foundationalScore !== null || industrialScore !== null) && (
         <div className="bg-white p-6 rounded-xl shadow-sm border">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">
             📋 Section-wise Analysis
@@ -430,7 +430,7 @@ const AssessmentResult: React.FC<Props> = ({
             )}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Radar Chart */}
       {topicScores.length > 0 && (

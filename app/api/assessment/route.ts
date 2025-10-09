@@ -40,8 +40,11 @@ export async function GET(req: NextRequest) {
     let query = "";
     const params = [assessmentTypeId];
 
-    // Adaptive test is specific to General Assessment (ID 1)
-    if (testType === "adaptive" && assessmentTypeId === 1) {
+    // Array of assessment type IDs eligible for adaptive mode
+    const adaptiveEligibleIds = [1, 2]; // 1: General Assessment, 2: Nursing Assessment
+
+    // Check if the current test is adaptive and the assessment type is eligible
+    if (testType === "adaptive" && adaptiveEligibleIds.includes(assessmentTypeId)) {
       query = `
         WITH adaptive_questions AS (
           -- Foundational Section
@@ -76,7 +79,7 @@ export async function GET(req: NextRequest) {
 
     const result = await pool.query(query, params);
 
-    // Shuffle final results
+    // Shuffle final results to mix sections and levels
     const shuffledRows = result.rows.sort(() => Math.random() - 0.5);
 
     const formattedQuestions = shuffledRows.map((q: any) => {
