@@ -609,15 +609,15 @@ const DeanDashboard: React.FC = () => {
                       <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                         Readiness Score
                       </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      {/* <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                         Foundation Score
                       </th>
                        <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                         Industrial Score
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      </th> */}
+                      {/* <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                         Action
-                      </th>
+                      </th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -661,7 +661,7 @@ const DeanDashboard: React.FC = () => {
                               {formatScore(readiness)}
                             </span>
                           </td>
-                          <td className="px-6 py-4">
+                          {/* <td className="px-6 py-4">
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getScoreClassName(
                                 foundation
@@ -669,8 +669,8 @@ const DeanDashboard: React.FC = () => {
                             >
                               {formatScore(foundation)}
                             </span>
-                          </td>
-                           <td className="px-6 py-4">
+                          </td> */}
+                           {/* <td className="px-6 py-4">
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getScoreClassName(
                                 industry
@@ -678,7 +678,7 @@ const DeanDashboard: React.FC = () => {
                             >
                               {formatScore(industry)}
                             </span>
-                          </td>
+                          </td> */}
                           <td className="px-6 py-4">
                             <button
                               onClick={() => handleViewReport(student)}
