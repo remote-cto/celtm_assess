@@ -30,7 +30,7 @@ const Navbar = () => {
             : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 group cursor-pointer">
               <Image
@@ -38,7 +38,7 @@ const Navbar = () => {
                 alt="CELTM Logo"
                 width={178}
                 height={178}
-                className="text-white w-[120px] h-[75px] md:w-[220px] md:h-[150px]"
+                className="text-white  w-[120px] h-[75px]md:w-[190px] md:h-[110px]"
               />
             </div>
 

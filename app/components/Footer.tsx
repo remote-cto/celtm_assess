@@ -39,8 +39,8 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
     <>
       <footer className={`bg-white py-8 px-4 ${className}`}>
         <div className="max-w-7xl mx-auto font-['Montserrat']">
-          {/* Main Footer Content */}
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
+          
+          {/* <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
             <div className="flex items-center mb-6 lg:mb-0">
               <div className="rounded-lg flex items-center justify-center mr-3">
                 <Image
@@ -52,9 +52,9 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
               </div>
             </div>
 
-            {/* Social Media Icons */}
+           
             <div className="flex flex-wrap justify-center lg:justify-end gap-3 w-full lg:w-auto">
-              {/* Facebook */}
+              
               <a
                 href="#"
                 className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-[#1877F2] transition-colors"
@@ -69,7 +69,6 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
                 </svg>
               </a>
 
-              {/* Twitter */}
               <a
                 href="#"
                 className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-[#1DA1F2] transition-colors"
@@ -84,7 +83,7 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
                 </svg>
               </a>
 
-              {/* LinkedIn */}
+             
               <a
                 href="#"
                 className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-[#0077B5] transition-colors"
@@ -99,7 +98,7 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
                 </svg>
               </a>
 
-              {/* GitHub */}
+              
               <a
                 href="#"
                 className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-[#6e5494] transition-colors"
@@ -114,7 +113,7 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
                 </svg>
               </a>
             </div>
-          </div>
+          </div> */}
 
           {/* Bottom Section */}
           <div className="border-t border-gray-200 pt-6">
