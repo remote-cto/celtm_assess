@@ -30,7 +30,7 @@ const NewHeader = () => {
             : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 group cursor-pointer">
               <Image
@@ -38,7 +38,7 @@ const NewHeader = () => {
                 alt="CELTM Logo"
                 width={148}
                 height={148}
-                className="text-white w-[120px] h-[75px] md:w-[220px] md:h-[150px]"
+                className="text-white w-[120px] h-[75px] md:w-[250px] md:h-[120px]"
               />
             </div>
 

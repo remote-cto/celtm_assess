@@ -38,7 +38,7 @@ const Navbar = () => {
                 alt="CELTM Logo"
                 width={178}
                 height={178}
-                className="text-white  w-[120px] h-[75px]md:w-[190px] md:h-[110px]"
+                className="text-white w-[120px] h-[75px] md:w-[250px] md:h-[120px]"
               />
             </div>
 
