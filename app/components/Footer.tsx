@@ -7,6 +7,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import RefundAndCancellationPolicy from "./RefundAndCancellationPolicy";
 import DataPolicy from "./DataPolicy";
 import CodeOfConduct from "./CodeOfConduct";
+import ScrollReveal from "./ScrollReveal";
 
 interface FooterProps {
   className?: string;
@@ -37,6 +38,7 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
 
   return (
     <>
+     <ScrollReveal direction="right">
       <footer className={`bg-white py-8 px-4 ${className}`}>
         <div className="max-w-7xl mx-auto font-['Montserrat']">
           
@@ -159,6 +161,7 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
           </div>
         </div>
       </footer>
+      </ScrollReveal>
 
       {/* Modals */}
       <TermsAndConditions isOpen={isTermsModalOpen} onClose={closeTermsModal} />
