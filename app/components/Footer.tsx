@@ -145,14 +145,14 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
                 </button>
                 <button
                   onClick={openDataPolicyModal}
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                  className="cursor-pointer text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Data Policy
                 </button>
 
                 <button
                   onClick={openConductModal}
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                  className="cursor-pointer text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Code of Conduct
                 </button>

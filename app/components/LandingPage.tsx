@@ -146,7 +146,7 @@ const LandingPage = () => {
               <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
                 <button
                   onClick={handleStartAssessment}
-                  className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-full font-semibold text-xl hover:shadow-2xl hover:shadow-blue-500/25 transition-all transform hover:scale-105 flex items-center hover:from-blue-700 hover:to-purple-700 active:scale-95"
+                  className="cursor-pointer group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-full font-semibold text-xl hover:shadow-2xl hover:shadow-blue-500/25 transition-all transform hover:scale-105 flex items-center hover:from-blue-700 hover:to-purple-700 active:scale-95"
                 >
                   Start Assessment
                   <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
@@ -157,7 +157,7 @@ const LandingPage = () => {
         </section>
       </ScrollReveal>
 
-      {/* Features Section */}
+      
       <ScrollReveal direction="right">
         <section className="py-5 px-4 sm:px-6 bg-white/50 backdrop-blur-sm">
           <div className="container mx-auto max-w-6xl">
@@ -177,7 +177,7 @@ const LandingPage = () => {
                 return (
                   <div
                     key={index}
-                    className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200 transform hover:scale-105"
+                    className="group bg-white border-blue-400 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border hover:border-blue-200 transform hover:scale-105"
                   >
                     <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300">
                       <Icon className="w-8 h-8 text-white" />
@@ -210,7 +210,7 @@ const LandingPage = () => {
             </p>
             <button
               onClick={handleStartAssessment}
-              className="group bg-white text-blue-600 px-6 py-4  md:px-12 md:py-6 rounded-full font-bold text-base md:text-xl hover:shadow-2xl transition-all transform hover:scale-105 flex items-center mx-auto hover:bg-gray-50"
+              className="cursor-pointer group bg-white text-blue-600 px-6 py-4  md:px-8 md:py-4 rounded-full font-bold text-base md:text-xl hover:shadow-2xl transition-all transform hover:scale-105 flex items-center mx-auto hover:bg-gray-50"
             >
               Get Started Today
               <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />

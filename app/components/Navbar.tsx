@@ -46,7 +46,7 @@ const Navbar = () => {
               <div className="flex items-center space-x-3">
                 <Link href="/Login">
                   <button
-                    className={`flex items-center border-2 border-slate-300  px-4 py-2 rounded-full font-semibold  transition-all font-['Montserrat']  ${
+                    className={`flex items-center border-2 border-slate-300  px-4 py-2 rounded-full font-semibold  transition-all font-['Montserrat'] cursor-pointer ${
                       isScrolled ? "text-black" : "text-black"
                     }`}
                   >
@@ -55,7 +55,7 @@ const Navbar = () => {
                   </button>
                 </Link>
                 <Link href="/Register">
-                  <button className="flex items-center group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2  rounded-full font-semibold text-base font-['Montserrat'] hover:shadow-2xl hover:shadow-emerald-500/30 transition-all transform hover:scale-105  hover:from-emerald-600 hover:to-cyan-600 active:scale-95 justify-center border-2 border-white/20 backdrop-blur-sm">
+                  <button className="cursor-pointer flex items-center group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2  rounded-full font-semibold text-base font-['Montserrat'] hover:shadow-2xl hover:shadow-emerald-500/30 transition-all transform hover:scale-105  hover:from-emerald-600 hover:to-cyan-600 active:scale-95 justify-center border-2 border-white/20 backdrop-blur-sm">
                     <UserPlus className="w-4 h-4 mr-2" />
                     Register
                   </button>

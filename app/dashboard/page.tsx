@@ -68,7 +68,9 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [testType, setTestType] = useState("standard");
   const [assessmentTypes, setAssessmentTypes] = useState<AssessmentType[]>([]);
-  const [selectedAssessmentType, setSelectedAssessmentType] = useState<number | null>(null);
+  const [selectedAssessmentType, setSelectedAssessmentType] = useState<
+    number | null
+  >(null);
 
   useEffect(() => {
     const data = getStudentData();
@@ -85,7 +87,9 @@ const DashboardPage = () => {
       const fetchAssessmentTypes = async () => {
         try {
           const org_id = studentData.org_id || 1; // Default to 1 if not present
-          const response = await fetch(`/api/assessment-types?org_id=${org_id}`);
+          const response = await fetch(
+            `/api/assessment-types?org_id=${org_id}`
+          );
           const data = await response.json();
           if (data.success && data.assessment_types.length > 0) {
             setAssessmentTypes(data.assessment_types);
@@ -154,7 +158,9 @@ const DashboardPage = () => {
                 </div>
               </div>
               <div className="ml-3">
-                <h1 className="text-xl font-semibold text-gray-900">Student Portal</h1>
+                <h1 className="text-xl font-semibold text-gray-900">
+                  Student Portal
+                </h1>
               </div>
             </div>
 
@@ -169,7 +175,9 @@ const DashboardPage = () => {
                   <User className="h-4 w-4 text-blue-600" />
                 </div>
                 <div className="hidden md:block text-right">
-                  <p className="text-sm font-medium text-gray-900">{studentData.name}</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    {studentData.name}
+                  </p>
                   <p className="text-xs text-gray-500">Student</p>
                 </div>
               </div>
@@ -196,7 +204,9 @@ const DashboardPage = () => {
                   <div className="h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <User className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">{studentData.name}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    {studentData.name}
+                  </h3>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                     Active Student
                   </span>
@@ -208,24 +218,36 @@ const DashboardPage = () => {
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <Mail className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Email</p>
-                    <p className="text-sm text-gray-900 truncate">{studentData.email}</p>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                      Email
+                    </p>
+                    <p className="text-sm text-gray-900 truncate">
+                      {studentData.email}
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <BookUser className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Registration</p>
-                    <p className="text-sm text-gray-900">{studentData.registration_number}</p>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                      Registration
+                    </p>
+                    <p className="text-sm text-gray-900">
+                      {studentData.registration_number}
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <GraduationCap className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">College</p>
-                    <p className="text-sm text-gray-900">{studentData.college_name}</p>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                      College
+                    </p>
+                    <p className="text-sm text-gray-900">
+                      {studentData.college_name}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -239,10 +261,11 @@ const DashboardPage = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                    Welcome back, {studentData.name.split(' ')[0]}!
+                    Welcome back, {studentData.name.split(" ")[0]}!
                   </h2>
                   <p className="text-blue-100 text-lg">
-                    Ready to continue your learning journey? Let's get started with your assessment.
+                    Ready to continue your learning journey? Let's get started
+                    with your assessment.
                   </p>
                 </div>
                 <div className="hidden md:block">
@@ -256,32 +279,45 @@ const DashboardPage = () => {
             {/* Assessment Section */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Start New Assessment</h3>
-                <p className="text-gray-600">Choose your preferred assessment and begin your test.</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  Start New Assessment
+                </h3>
+                <p className="text-gray-600">
+                  Choose your preferred assessment and begin your test.
+                </p>
               </div>
 
-              {/* Assessment Type Selection Dropdown */}
-              {/* Assessment Type Selection Dropdown */}
               <div className="max-w-2xl mx-auto mb-8">
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border-2 border-blue-200">
                   <div className="flex items-center mb-3">
                     <Settings className="h-5 w-5 text-blue-600 mr-2" />
-                    <label htmlFor="assessment-type" className="block text-base font-semibold text-gray-900">
+                    <label
+                      htmlFor="assessment-type"
+                      className="block text-base font-semibold text-gray-900"
+                    >
                       Select Assessment Type
                     </label>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">Choose the assessment you want to take</p>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Choose the assessment you want to take
+                  </p>
                   <select
                     id="assessment-type"
                     name="assessment-type"
                     className="block w-full px-4 py-3.5 text-base font-medium border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-lg shadow-sm bg-white hover:border-blue-400 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    value={selectedAssessmentType || ''}
-                    onChange={(e) => setSelectedAssessmentType(Number(e.target.value))}
+                    value={selectedAssessmentType || ""}
+                    onChange={(e) =>
+                      setSelectedAssessmentType(Number(e.target.value))
+                    }
                     disabled={assessmentTypes.length === 0}
                   >
                     {assessmentTypes.length > 0 ? (
                       assessmentTypes.map((assessment) => (
-                        <option key={assessment.id} value={assessment.id} className="py-2">
+                        <option
+                          key={assessment.id}
+                          value={assessment.id}
+                          className="py-2"
+                        >
                           {assessment.name}
                         </option>
                       ))
@@ -293,7 +329,9 @@ const DashboardPage = () => {
                     <div className="mt-3 flex items-center text-sm text-blue-700">
                       <CheckCircle className="h-4 w-4 mr-1.5" />
                       <span className="font-medium">
-                        {assessmentTypes.find(a => a.id === selectedAssessmentType)?.description || 'Assessment selected'}
+                        {assessmentTypes.find(
+                          (a) => a.id === selectedAssessmentType
+                        )?.description || "Assessment selected"}
                       </span>
                     </div>
                   )}
@@ -312,15 +350,21 @@ const DashboardPage = () => {
                       onChange={(e) => setTestType(e.target.value)}
                       className="sr-only"
                     />
-                    <div className={`relative p-6 rounded-lg border-2 transition-all duration-200 ${
-                      testType === "adaptive"
-                        ? "border-blue-500 bg-blue-50 ring-2 ring-blue-200"
-                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                    }`}>
+                    <div
+                      className={`relative p-6 rounded-lg border-2 transition-all duration-200 ${
+                        testType === "adaptive"
+                          ? "border-blue-500 bg-blue-50 ring-2 ring-blue-200"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                      }`}
+                    >
                       <div className="flex items-center justify-between mb-4">
-                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
-                          testType === "adaptive" ? "bg-blue-500" : "bg-gray-400"
-                        }`}>
+                        <div
+                          className={`h-10 w-10 rounded-lg flex items-center justify-center ${
+                            testType === "adaptive"
+                              ? "bg-blue-500"
+                              : "bg-gray-400"
+                          }`}
+                        >
                           <SlidersHorizontal className="h-5 w-5 text-white" />
                         </div>
                         {testType === "adaptive" && (
@@ -329,7 +373,9 @@ const DashboardPage = () => {
                           </div>
                         )}
                       </div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">Adaptive Test</h4>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Adaptive Test
+                      </h4>
                     </div>
                   </label>
 
@@ -342,15 +388,21 @@ const DashboardPage = () => {
                       onChange={(e) => setTestType(e.target.value)}
                       className="sr-only"
                     />
-                    <div className={`relative p-6 rounded-lg border-2 transition-all duration-200 ${
-                      testType === "standard"
-                        ? "border-blue-500 bg-blue-50 ring-2 ring-blue-200"
-                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                    }`}>
+                    <div
+                      className={`relative p-6 rounded-lg border-2 transition-all duration-200 ${
+                        testType === "standard"
+                          ? "border-blue-500 bg-blue-50 ring-2 ring-blue-200"
+                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                      }`}
+                    >
                       <div className="flex items-center justify-between mb-4">
-                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
-                          testType === "standard" ? "bg-blue-500" : "bg-gray-400"
-                        }`}>
+                        <div
+                          className={`h-10 w-10 rounded-lg flex items-center justify-center ${
+                            testType === "standard"
+                              ? "bg-blue-500"
+                              : "bg-gray-400"
+                          }`}
+                        >
                           <List className="h-5 w-5 text-white" />
                         </div>
                         {testType === "standard" && (
@@ -359,7 +411,9 @@ const DashboardPage = () => {
                           </div>
                         )}
                       </div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">Standard Test</h4>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Standard Test
+                      </h4>
                     </div>
                   </label>
                 </div>
@@ -369,14 +423,15 @@ const DashboardPage = () => {
               <div className="text-center">
                 <button
                   onClick={handleStartAssessment}
-                  className="group inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="cursor-pointer group inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   <Play className="h-5 w-5 mr-3" />
                   Start Assessment
                   <ArrowRight className="h-5 w-5 ml-3 group-hover:translate-x-1 transition-transform duration-200" />
                 </button>
                 <p className="text-sm text-gray-500 mt-3">
-                  Make sure you have a stable internet connection before starting
+                  Make sure you have a stable internet connection before
+                  starting
                 </p>
               </div>
             </div>
