@@ -437,7 +437,7 @@ const LoginPage: React.FC = () => {
                   <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
                 </div>
               )}
-              <span className="relative z-10 flex items-center justify-center">
+              <span className="relative z-10 flex items-center justify-center cursor-pointer">
                 {loading ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>

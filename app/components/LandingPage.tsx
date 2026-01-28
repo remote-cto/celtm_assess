@@ -3,11 +3,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 import {
-  Users,
   ArrowRight,
-  Zap,
-  Target,
-  Globe,
   FileText,
   BarChart3,
   Award,
@@ -157,7 +153,6 @@ const LandingPage = () => {
         </section>
       </ScrollReveal>
 
-      
       <ScrollReveal direction="right">
         <section className="py-5 px-4 sm:px-6 bg-white/50 backdrop-blur-sm">
           <div className="container mx-auto max-w-6xl">

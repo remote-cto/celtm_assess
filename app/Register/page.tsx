@@ -653,7 +653,7 @@ const StudentRegistration: React.FC = () => {
               type="button"
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500/30 relative overflow-hidden ${
+              className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500/30 relative overflow-hidden cursor-pointer ${
                 isSubmitting
                   ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                   : "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl"
