@@ -42,86 +42,82 @@ const Footer: React.FC<FooterProps> = ({ className = "" }) => {
       <footer className={`bg-white py-8 px-4 ${className}`}>
         <div className="max-w-7xl mx-auto font-['Montserrat']">
           
-          {/* <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
-            <div className="flex items-center mb-6 lg:mb-0">
-              <div className="rounded-lg flex items-center justify-center mr-3">
-                <Image
-                  src="/images/CELTM.png"
-                  alt="CELTM Logo"
-                  width={168}
-                  height={168}
-                />
-              </div>
-            </div>
 
-           
-            <div className="flex flex-wrap justify-center lg:justify-end gap-3 w-full lg:w-auto">
-              
-              <a
-                href="#"
-                className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-[#1877F2] transition-colors"
-                aria-label="Facebook"
-              >
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M22.675 0h-21.35C.596 0 0 .593 0 1.326v21.348C0 23.405.596 24 1.325 24h11.494V14.708h-3.13v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.658-4.788 1.325 0 2.464.098 2.795.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.31h3.587l-.467 3.622h-3.12V24h6.116C23.404 24 24 23.405 24 22.674V1.326C24 .593 23.404 0 22.675 0z" />
-                </svg>
-              </a>
+  
+    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
+      {/* Logo */}
+      <div className="flex items-center mb-6 lg:mb-0">
+        <Image
+          src="/images/CELTM.png"
+          alt="CELTM Logo"
+          width={168}
+          height={168}
+        />
+      </div>
 
-              <a
-                href="#"
-                className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-[#1DA1F2] transition-colors"
-                aria-label="Twitter"
-              >
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M24 4.557a9.83 9.83 0 01-2.828.775 4.932 4.932 0 002.165-2.724c-.95.564-2.005.974-3.127 1.195a4.916 4.916 0 00-8.384 4.482C7.691 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 00-.666 2.475c0 1.708.87 3.215 2.188 4.099a4.904 4.904 0 01-2.229-.616c-.054 1.98 1.388 3.827 3.444 4.243a4.935 4.935 0 01-2.224.084 4.919 4.919 0 004.6 3.419 9.867 9.867 0 01-6.102 2.105c-.396 0-.79-.023-1.175-.068a13.945 13.945 0 007.557 2.212c9.054 0 14-7.496 14-13.986 0-.21-.005-.423-.015-.635A10.025 10.025 0 0024 4.557z" />
-                </svg>
-              </a>
+      {/* Social Icons */}
+      <div className="flex gap-2">
+        {/* LinkedIn */}
+        <a
+          href="https://www.linkedin.com/company/celtm"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-2 rounded-md bg-gray-100 hover:bg-gray-300 transition"
+          aria-label="LinkedIn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-5 h-5 text-gray-700 hover:text-blue-600"
+          >
+            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 24h5V7H0v17zm7.5-17h4.8v2.3h.1c.67-1.26 2.3-2.6 4.7-2.6 5 0 5.9 3.3 5.9 7.6V24h-5v-7.8c0-1.9 0-4.3-2.6-4.3s-3 2-3 4.1V24h-5V7z" />
+          </svg>
+        </a>
 
-             
-              <a
-                href="#"
-                className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-[#0077B5] transition-colors"
-                aria-label="LinkedIn"
-              >
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.327-.026-3.036-1.852-3.036-1.854 0-2.136 1.447-2.136 2.939v5.666H9.351V9h3.414v1.561h.047c.476-.9 1.637-1.852 3.368-1.852 3.6 0 4.267 2.368 4.267 5.452v6.291zM5.337 7.433a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zm1.781 13.019H3.555V9h3.563v11.452z" />
-                </svg>
-              </a>
+        {/* YouTube */}
+        <a
+          href="https://www.youtube.com/@CELTM"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-2 rounded-md bg-gray-100 hover:bg-gray-300 transition"
+          aria-label="YouTube"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-5 h-5 text-gray-700 hover:text-red-600"
+          >
+            <path d="M23.5 6.2s-.2-1.7-.9-2.4c-.9-.9-1.9-.9-2.3-1C16.9 2.5 12 2.5 12 2.5h-.1s-4.9 0-8.2.3c-.4.1-1.4.1-2.3 1C.7 4.5.5 6.2.5 6.2S0 8.1 0 10v1.9c0 1.9.5 3.8.5 3.8s.2 1.7.9 2.4c.9.9 2.1.9 2.6 1 1.9.2 8 .3 8 .3s4.9 0 8.2-.3c.4-.1 1.4-.1 2.3-1 .7-.7.9-2.4.9-2.4s.5-1.9.5-3.8V10c0-1.9-.5-3.8-.5-3.8zM9.5 14.5v-5l5.2 2.5-5.2 2.5z" />
+          </svg>
+        </a>
 
-              
-              <a
-                href="#"
-                className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-[#6e5494] transition-colors"
-                aria-label="GitHub"
-              >
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.255c-3.338.726-4.033-1.415-4.033-1.415-.546-1.387-1.333-1.757-1.333-1.757-1.09-.744.083-.729.083-.729 1.205.086 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.604-2.665-.305-5.467-1.335-5.467-5.93 0-1.31.467-2.38 1.235-3.22-.123-.304-.536-1.527.117-3.176 0 0 1.008-.322 3.3 1.23.957-.267 1.983-.4 3.003-.405 1.02.005 2.047.138 3.006.405 2.29-1.552 3.297-1.23 3.297-1.23.653 1.649.241 2.872.118 3.176.77.84 1.235 1.911 1.235 3.22 0 4.607-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .321.218.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                </svg>
-              </a>
-            </div>
-          </div> */}
+        {/* Email */}
+        <a
+          href="mailto:team@celtm.com"
+         className="p-2 rounded-md bg-gray-100 hover:bg-gray-300 transition"
+          aria-label="Email"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-5 h-5 text-gray-700 hover:text-green-600"
+          >
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+
 
           {/* Bottom Section */}
           <div className="border-t border-gray-200 pt-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-gray-600 text-sm text-center md:text-left font-['Montserrat']">
-                © 2025 CELTM, All Rights Reserved.
+                © 2026 CELTM, All Rights Reserved.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm font-['Montserrat']">
