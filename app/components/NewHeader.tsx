@@ -34,7 +34,7 @@ const NewHeader = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 group cursor-pointer">
               <Image
-                src="/images/CELTM.png"
+                src="/images/CELTMLOGO.png"
                 alt="CELTM Logo"
                 width={148}
                 height={148}

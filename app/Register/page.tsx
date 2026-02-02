@@ -275,7 +275,7 @@ const StudentRegistration: React.FC = () => {
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-200/20 to-purple-200/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <Image
-          src="/images/CELTM.png"
+          src="/images/CELTMLOGO.png"
           alt="CELTM Logo"
           width={148}
           height={148}

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -181,7 +180,9 @@ const DeanDashboard: React.FC = () => {
   const [admin, setAdmin] = useState<Admin>({});
   const [college, setCollege] = useState<College | null>(null);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
-  const [selectedAssignment, setSelectedAssignment] = useState<number | string>("");
+  const [selectedAssignment, setSelectedAssignment] = useState<number | string>(
+    "",
+  );
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
@@ -210,10 +211,10 @@ const DeanDashboard: React.FC = () => {
     const fetchInitialData = async () => {
       try {
         setLoadingAssignments(true);
-        
+
         // Fetch college info
         const collegeRes = await fetch(
-          `/api/college-info?college_id=${adminInfo.org_id}`
+          `/api/college-info?college_id=${adminInfo.org_id}`,
         );
         if (!collegeRes.ok) throw new Error("Failed to fetch college info");
         const collegeData = await collegeRes.json();
@@ -221,14 +222,17 @@ const DeanDashboard: React.FC = () => {
 
         // Fetch available assessment types (assignments) from database
         const assignmentsRes = await fetch(
-          `/api/assessment-types?org_id=${adminInfo.org_id}`
+          `/api/assessment-types?org_id=${adminInfo.org_id}`,
         );
-        
+
         if (assignmentsRes.ok) {
           const assignmentsData = await assignmentsRes.json();
           console.log("Fetched assignments from DB:", assignmentsData);
-          
-          if (assignmentsData.success && assignmentsData.assessment_types?.length > 0) {
+
+          if (
+            assignmentsData.success &&
+            assignmentsData.assessment_types?.length > 0
+          ) {
             setAssignments(assignmentsData.assessment_types);
           } else {
             console.warn("No assessment types found in database");
@@ -239,7 +243,6 @@ const DeanDashboard: React.FC = () => {
           console.error("Failed to fetch assignments:", errorText);
           setError("Failed to load assessment types. Please contact support.");
         }
-        
       } catch (err) {
         setError("Failed to load initial data. Please try again later.");
         console.error("Error loading dean-dashboard data:", err);
@@ -255,11 +258,11 @@ const DeanDashboard: React.FC = () => {
     try {
       setLoading(true);
       const studentsRes = await fetch(
-        `/api/college-students?college_id=${admin.org_id}&assessment_type_id=${assignmentId}`
+        `/api/college-students?college_id=${admin.org_id}&assessment_type_id=${assignmentId}`,
       );
       if (!studentsRes.ok) throw new Error("Failed to fetch students");
       const studentsData = await studentsRes.json();
-      
+
       console.log("Students data:", studentsData);
       setStudents(studentsData.students || []);
       setShowStudentsTable(true);
@@ -274,7 +277,7 @@ const DeanDashboard: React.FC = () => {
   const handleAssignmentChange = (assignmentId: string) => {
     const numericId = assignmentId ? parseInt(assignmentId) : "";
     setSelectedAssignment(numericId);
-    
+
     if (numericId) {
       fetchStudentsForAssignment(numericId);
     } else {
@@ -284,7 +287,7 @@ const DeanDashboard: React.FC = () => {
   };
 
   const transformDataForAssessmentResult = (
-    data: DetailedStudentData
+    data: DetailedStudentData,
   ): TransformedAssessmentData => {
     return {
       student: data.student,
@@ -323,14 +326,14 @@ const DeanDashboard: React.FC = () => {
       console.log("Fetching detailed report for student:", student.id);
 
       const response = await fetch(
-        `/api/student-detailed-report?student_id=${student.id}&assessment_type_id=${selectedAssignment}`
+        `/api/student-detailed-report?student_id=${student.id}&assessment_type_id=${selectedAssignment}`,
       );
 
       if (!response.ok) {
         const errorText = await response.text();
         console.error("API Error:", errorText);
         throw new Error(
-          `Failed to fetch detailed report: ${response.status} ${response.statusText}`
+          `Failed to fetch detailed report: ${response.status} ${response.statusText}`,
         );
       }
 
@@ -362,7 +365,7 @@ const DeanDashboard: React.FC = () => {
       setReportError(
         `Failed to load detailed report: ${
           err instanceof Error ? err.message : "Unknown error"
-        }. Please try again.`
+        }. Please try again.`,
       );
     } finally {
       setLoadingReport(false);
@@ -395,27 +398,23 @@ const DeanDashboard: React.FC = () => {
   const handleLogout = async () => {
     try {
       // Call the server endpoint which handles cookie deletion and redirection.
-      const response = await fetch('/api/logout', {
-        method: 'POST',
+      const response = await fetch("/api/logout", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         // Specify the userType so the correct cookie ('adminSession') is cleared.
-        body: JSON.stringify({ userType: 'admin' }),
+        body: JSON.stringify({ userType: "admin" }),
       });
 
-      // The server response will be a redirect. The browser will follow it.
-      // If the response has a `redirected` status, we navigate to its URL.
       if (response.redirected) {
-        // This forces a full page navigation, clearing any client-side state.
         window.location.href = response.url;
       } else {
-        // Fallback in case the redirect doesn't happen for some reason.
-        window.location.href = '/Login';
+        window.location.href = "/Login";
       }
     } catch (error) {
       console.error("Logout failed:", error);
-      // Force a redirect to the login page even if the API call fails.
+
       window.location.href = "/Login";
     }
   };
@@ -443,7 +442,7 @@ const DeanDashboard: React.FC = () => {
 
   const getSelectedAssignmentName = (): string => {
     if (!selectedAssignment) return "";
-    const assignment = assignments.find(a => a.id === selectedAssignment);
+    const assignment = assignments.find((a) => a.id === selectedAssignment);
     return assignment ? assignment.name : "";
   };
 
@@ -478,7 +477,7 @@ const DeanDashboard: React.FC = () => {
           </h1>
           <button
             onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors flex items-center gap-2"
+            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
           >
             <LogOut size={16} />
             Logout
@@ -514,14 +513,19 @@ const DeanDashboard: React.FC = () => {
               Select Assessment Type
             </h2>
             <div className="max-w-md">
-              <label htmlFor="assignment-select" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="assignment-select"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Choose an assessment type to view student performance:
               </label>
-              
+
               {loadingAssignments ? (
                 <div className="flex items-center space-x-2 p-3 border border-gray-300 rounded-lg bg-gray-50">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                  <span className="text-gray-600">Loading assessment types...</span>
+                  <span className="text-gray-600">
+                    Loading assessment types...
+                  </span>
                 </div>
               ) : (
                 <select
@@ -535,21 +539,23 @@ const DeanDashboard: React.FC = () => {
                   {assignments.map((assignment) => (
                     <option key={assignment.id} value={assignment.id}>
                       {assignment.name}
-                      {assignment.key_area_name && ` (${assignment.key_area_name})`}
+                      {assignment.key_area_name &&
+                        ` (${assignment.key_area_name})`}
                     </option>
                   ))}
                 </select>
               )}
-              
+
               {!loadingAssignments && assignments.length === 0 && (
                 <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <p className="text-yellow-800 text-sm">
-                    ⚠️ No assessment types found for this organization. Please contact support.
+                    ⚠️ No assessment types found for this organization. Please
+                    contact support.
                   </p>
                 </div>
               )}
             </div>
-            
+
             {selectedAssignment && (
               <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
                 <p className="text-green-800 text-sm">
@@ -587,7 +593,9 @@ const DeanDashboard: React.FC = () => {
                 </div>
               ) : students.length === 0 ? (
                 <div className="p-8 text-center text-gray-500">
-                  <p className="text-lg">No students found for this assessment type.</p>
+                  <p className="text-lg">
+                    No students found for this assessment type.
+                  </p>
                   <p className="text-sm mt-2">
                     Students will appear here once they complete their
                     assessments for the selected assessment type.
@@ -631,7 +639,7 @@ const DeanDashboard: React.FC = () => {
                         student.assessments && student.assessments.length > 0
                           ? student.assessments[0].foundational_assessment
                           : null;
-                          const industry =
+                      const industry =
                         student.assessments && student.assessments.length > 0
                           ? student.assessments[0].industrial_assessment
                           : null;
@@ -655,7 +663,7 @@ const DeanDashboard: React.FC = () => {
                           <td className="px-6 py-4">
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getScoreClassName(
-                                readiness
+                                readiness,
                               )}`}
                             >
                               {formatScore(readiness)}
@@ -670,7 +678,7 @@ const DeanDashboard: React.FC = () => {
                               {formatScore(foundation)}
                             </span>
                           </td> */}
-                           {/* <td className="px-6 py-4">
+                          {/* <td className="px-6 py-4">
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getScoreClassName(
                                 industry
@@ -814,4 +822,3 @@ const DeanDashboard: React.FC = () => {
 };
 
 export default DeanDashboard;
-

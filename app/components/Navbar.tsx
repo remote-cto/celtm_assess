@@ -6,39 +6,23 @@ import Link from "next/link";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup function
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <>
       {/* Navigation */}
       <nav
-        className={`fixed w-full z-40 transition-all duration-500 ${
-          isScrolled
-            ? "bg-white/95 backdrop-blur-lg shadow-lg border-b border-slate-200/50"
-            : "bg-transparent"
-        }`}
+        className="fixed w-full z-40 transition-all duration-500 
+    bg-white/95 backdrop-blur-lg shadow-lg border-b border-slate-200/50"
       >
-        <div className="container mx-auto px-2">
+        <div className="container mx-auto px-10">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3 group cursor-pointer">
+            <div className="flex items-center  group cursor-pointer">
               <Image
-                src="/images/CELTM.png"
+                src="/images/CELTMLOGO.png"
                 alt="CELTM Logo"
-                width={178}
-                height={178}
-                 className="text-white w-[120px] h-[75px] md:w-[200px] md:h-[130px]"
+                width={145}
+                height={145}
+                className="text-white"
               />
             </div>
 
@@ -46,9 +30,8 @@ const Navbar = () => {
               <div className="flex items-center space-x-3">
                 <Link href="/Login">
                   <button
-                    className={`flex items-center border-2 border-slate-300  px-4 py-2 rounded-full font-semibold  transition-all font-['Montserrat'] cursor-pointer ${
-                      isScrolled ? "text-black" : "text-black"
-                    }`}
+                    className="flex items-center border-2 border-slate-300  px-4 py-2 rounded-full font-semibold  transition-all font-['Montserrat'] cursor-pointer 
+                      text-black"
                   >
                     <LogIn className="w-4 h-4 mr-2" />
                     Login
@@ -69,15 +52,13 @@ const Navbar = () => {
             >
               {isMenuOpen ? (
                 <X
-                  className={`w-6 h-6 ${
-                    isScrolled ? "text-slate-700" : "text-slate-700"
-                  }`}
+                  className="w-6 h-6
+                    text-slate-700"
                 />
               ) : (
                 <Menu
-                  className={`w-6 h-6 ${
-                    isScrolled ? "text-slate-700" : "text-slate-700"
-                  }`}
+                  className="w-6 h-6 
+                    text-slate-700"
                 />
               )}
             </button>
@@ -88,7 +69,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="fixed inset-0 bg-white/95 backdrop-blur-lg z-30 md:hidden">
-          <div className="flex flex-col h-full pt-24 pb-8 px-6">
+          <div className="flex flex-col h-full pt-50 pb-8 px-6">
             {/* Navigation Links */}
 
             {/* Login/Register Buttons */}

@@ -236,7 +236,7 @@ useEffect(() => {
       {/* Logout/Back Button */}
       <button
         onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+        className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors cursor-pointer"
       >
         {isDeanView() ? "Back to Dashboard" : "Logout"}
       </button>
