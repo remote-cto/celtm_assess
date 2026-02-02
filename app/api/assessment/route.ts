@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   if (!assessmentTypeIdParam) {
     return NextResponse.json(
       { error: "assessment_type_id is required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
   if (isNaN(assessmentTypeId)) {
     return NextResponse.json(
       { error: "Invalid assessment_type_id" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -44,7 +44,10 @@ export async function GET(req: NextRequest) {
     const adaptiveEligibleIds = [1, 2]; // 1: General Assessment, 2: Nursing Assessment
 
     // Check if the current test is adaptive and the assessment type is eligible
-    if (testType === "adaptive" && adaptiveEligibleIds.includes(assessmentTypeId)) {
+    if (
+      testType === "adaptive" &&
+      adaptiveEligibleIds.includes(assessmentTypeId)
+    ) {
       query = `
         WITH adaptive_questions AS (
           -- Foundational Section
@@ -73,7 +76,8 @@ export async function GET(req: NextRequest) {
           AND t.is_active = TRUE
           AND s.is_active = TRUE
           AND l.is_active = TRUE
-        ORDER BY RANDOM();
+        ORDER BY RANDOM()
+        LIMIT 18;
       `;
     }
 
@@ -107,13 +111,13 @@ export async function GET(req: NextRequest) {
         testType: testType,
         totalQuestions: formattedQuestions.length,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error fetching questions:", error);
     return NextResponse.json(
       { error: "Failed to load questions", testType: testType },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

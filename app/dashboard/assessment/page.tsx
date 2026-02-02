@@ -627,7 +627,7 @@ const AssessmentPage: React.FC = () => {
             <button
               onClick={handleNextQuestion}
               disabled={selectedAnswer === null}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {state.currentQuestion === state.questions.length - 1
                 ? "Finish Assessment"
