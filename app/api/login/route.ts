@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { serialize } from "cookie";
 import pool from "@/lib/database";
+import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,14 +17,13 @@ export async function POST(req: NextRequest) {
     }
 
     const query = `
-      SELECT au.id, au.name, au.email, au.registration_number, au.org_id, org.name as college_name
+      SELECT au.id, au.name, au.email, au.registration_number, au.org_id, au.password, org.name as college_name
       FROM academic_user au
       INNER JOIN user_type ut ON au.user_type_id = ut.id
       INNER JOIN org ON au.org_id = org.id
       WHERE au.email = $1
         AND au.registration_number = $2
-        AND au.password = $3
-        AND au.org_id = $4
+        AND au.org_id = $3
         AND ut.user_type_desc = 'Student'
         AND au.is_active = TRUE
         AND ut.is_active = TRUE
@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
     const result = await pool.query(query, [
       email,
       registration_number,
-      password,
       Number(college_id),
     ]);
 
@@ -45,6 +44,14 @@ export async function POST(req: NextRequest) {
     }
 
     const student = result.rows[0];
+
+    const isPasswordValid = await bcrypt.compare(password, student.password);
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: "Invalid credentials" },
+        { status: 401 }
+      );
+    }
 
     // Prepare cookie data (store minimal data only)
     const cookieValue = JSON.stringify({
@@ -62,7 +69,7 @@ export async function POST(req: NextRequest) {
       httpOnly: false, // false so you can read on client (for learning only)
       maxAge: 60 * 60 * 6, // 6 hours
       sameSite: "lax",
-      secure:false // true in prod
+      secure: process.env.NODE_ENV === "production", // true in prod
     });
 
     const res = NextResponse.json({
