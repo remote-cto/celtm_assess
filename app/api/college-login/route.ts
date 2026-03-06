@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { serialize } from "cookie";
-import pool from "@/lib/database"; 
+import pool from "@/lib/database";
+import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
     // Query for admin
     const result = await pool.query(
       `SELECT
-        au.id, au.name, au.email, au.org_id, au.tenant_id,
+        au.id, au.name, au.email, au.org_id, au.tenant_id, au.password as hashed_password,
         o.name as org_name, ac.plain_text_password
        FROM academic_user au
        JOIN org o ON au.org_id = o.id
@@ -40,8 +41,25 @@ export async function POST(req: NextRequest) {
 
     const admin = result.rows[0];
 
-    
-    const isPasswordCorrect = password === admin.plain_text_password;
+    let isPasswordCorrect = false;
+
+    if (admin.hashed_password && admin.hashed_password.startsWith("$2")) {
+      // Validate against the hashed password
+      isPasswordCorrect = await bcrypt.compare(password, admin.hashed_password);
+    } else {
+      // Fallback for unmigrated passwords
+      isPasswordCorrect = password === admin.plain_text_password;
+
+      // If correct and not yet hashed, hash and save it to the database
+      if (isPasswordCorrect) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await pool.query(
+          `UPDATE academic_user SET password = $1 WHERE id = $2`,
+          [hashedPassword, admin.id]
+        );
+      }
+    }
+
     if (!isPasswordCorrect) {
       return NextResponse.json(
         { error: "Invalid email or password" },
@@ -49,7 +67,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-   
+
     const cookieValue = JSON.stringify({
       id: admin.id,
       email: admin.email,
@@ -62,10 +80,10 @@ export async function POST(req: NextRequest) {
     // Cookie config
     const cookie = serialize("adminSession", cookieValue, {
       path: "/",
-      httpOnly: false, 
-      maxAge: 60 * 60 * 6, 
+      httpOnly: false,
+      maxAge: 60 * 60 * 6,
       sameSite: "lax",
-      secure: false, 
+      secure: process.env.NODE_ENV === "production",
     });
 
     const res = NextResponse.json({
