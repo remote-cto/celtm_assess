@@ -3,6 +3,7 @@
 
 import pool from './database';
 import { StudentRegistrationData } from './validation';
+import bcrypt from 'bcryptjs';
 
 export const studentService = {
   checkEmailExists: async (email: string, orgId: number): Promise<boolean> => {
@@ -14,7 +15,6 @@ export const studentService = {
   },
 
   checkRegistrationNumberExists: async (registrationNumber: string, orgId: number): Promise<boolean> => {
-    // Assuming academic_user has registration_number column
     const result = await pool.query(
       `SELECT id FROM academic_user WHERE registration_number = $1 AND org_id = $2 AND is_active = TRUE`,
       [registrationNumber, orgId]
@@ -44,24 +44,26 @@ export const studentService = {
     return result.rows[0].id;
   },
 
- createAcademicUser: async (data: StudentRegistrationData & {
-  org_id: number;
-  tenant_id: number;
-  user_type_id: number;
-}) => {
-  const {
-    name,
-    email,
-    phone,
-    registration_number,
-    org_id,
-    tenant_id,
-    user_type_id,
-    password, // Add this
-  } = data;
+  createAcademicUser: async (data: StudentRegistrationData & {
+    org_id: number;
+    tenant_id: number;
+    user_type_id: number;
+  }) => {
+    const {
+      name,
+      email,
+      phone,
+      registration_number,
+      org_id,
+      tenant_id,
+      user_type_id,
+      password,
+    } = data;
 
-  const result = await pool.query(
-    `
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await pool.query(
+      `
     INSERT INTO academic_user (
       org_id,
       tenant_id,
@@ -77,11 +79,11 @@ export const studentService = {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, TRUE, NOW())
     RETURNING id, name, email, create_date
     `,
-    [org_id, tenant_id, user_type_id, name, email, phone, registration_number, password] // Add password here
-  );
+      [org_id, tenant_id, user_type_id, name, email, phone, registration_number, hashedPassword] // Add password here
+    );
 
-  return result.rows[0];
-},
+    return result.rows[0];
+  },
 
 
   validateStudentData: async (data: StudentRegistrationData) => {
