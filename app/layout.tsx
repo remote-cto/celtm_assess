@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,20 +16,23 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "CELTM",
-  
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        {children}
+        <Navbar />
+
+        <main className="pt-24 flex-grow">{children}</main>
+
+        <Footer />
       </body>
     </html>
   );
