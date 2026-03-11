@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       httpOnly: false, // false so you can read on client (for learning only)
       maxAge: 60 * 60 * 6, // 6 hours
       sameSite: "lax",
-      secure: false // true in prod
+      secure: false, // true in prod
     });
 
     const res = NextResponse.json({
