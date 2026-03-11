@@ -68,6 +68,7 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [testType, setTestType] = useState("standard");
   const [assessmentTypes, setAssessmentTypes] = useState<AssessmentType[]>([]);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [selectedAssessmentType, setSelectedAssessmentType] = useState<
     number | null
   >(null);
@@ -88,7 +89,7 @@ const DashboardPage = () => {
         try {
           const org_id = studentData.org_id || 1; // Default to 1 if not present
           const response = await fetch(
-            `/api/assessment-types?org_id=${org_id}`
+            `/api/assessment-types?org_id=${org_id}`,
           );
           const data = await response.json();
           if (data.success && data.assessment_types.length > 0) {
@@ -166,10 +167,6 @@ const DashboardPage = () => {
 
             {/* User Menu */}
             <div className="flex items-center space-x-4">
-              <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                <Bell className="h-5 w-5" />
-              </button>
-
               <div className="flex items-center space-x-3">
                 <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <User className="h-4 w-4 text-blue-600" />
@@ -183,11 +180,53 @@ const DashboardPage = () => {
               </div>
 
               <button
-                onClick={handleLogout}
+                onClick={() => setShowLogoutConfirm(true)}
                 className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
               >
                 <LogOut className="h-5 w-5" />
               </button>
+
+              {showLogoutConfirm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                    onClick={() => setShowLogoutConfirm(false)}
+                  />
+
+                  <div className="relative bg-white rounded-2xl shadow-2xl p-6 w-80 mx-4 flex flex-col gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mx-auto">
+                      <LogOut className="h-6 w-6 text-red-500" />
+                    </div>
+
+                    <div className="text-center">
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        Log out?
+                      </h2>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Are you sure you want to log out of your account?
+                      </p>
+                    </div>
+
+                    <div className="flex gap-3 mt-1">
+                      <button
+                        onClick={() => setShowLogoutConfirm(false)}
+                        className="flex-1 px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowLogoutConfirm(false);
+                          handleLogout();
+                        }}
+                        className="flex-1 px-4 py-2 rounded-lg bg-red-500 text-sm font-medium text-white hover:bg-red-600 transition-colors cursor-pointer"
+                      >
+                        Log out
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -198,7 +237,6 @@ const DashboardPage = () => {
           {/* Sidebar */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              {/* Profile Section */}
               <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
                 <div className="text-center">
                   <div className="h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -213,7 +251,6 @@ const DashboardPage = () => {
                 </div>
               </div>
 
-              {/* Student Info */}
               <div className="p-6 space-y-4">
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                   <Mail className="h-5 w-5 text-gray-400" />
@@ -330,7 +367,7 @@ const DashboardPage = () => {
                       <CheckCircle className="h-4 w-4 mr-1.5" />
                       <span className="font-medium">
                         {assessmentTypes.find(
-                          (a) => a.id === selectedAssessmentType
+                          (a) => a.id === selectedAssessmentType,
                         )?.description || "Assessment selected"}
                       </span>
                     </div>
