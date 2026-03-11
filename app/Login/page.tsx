@@ -32,7 +32,7 @@ function getAdminData() {
       }
       // Fallback to sessionStorage for backward compatibility
       const sessionData = JSON.parse(
-        sessionStorage.getItem("adminData") || "{}"
+        sessionStorage.getItem("adminData") || "{}",
       );
       return sessionData?.id ? sessionData : null;
     } catch {
@@ -72,12 +72,11 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
   useEffect(() => {
-    const student = getStudentData(); 
-    const admin = getAdminData(); 
+    const student = getStudentData();
+    const admin = getAdminData();
 
     if (student) {
       router.push("/dashboard");
@@ -86,7 +85,6 @@ const LoginPage: React.FC = () => {
     }
   }, []);
 
- 
   useEffect(() => {
     const fetchColleges = async () => {
       try {
@@ -98,7 +96,7 @@ const LoginPage: React.FC = () => {
             data.colleges.map((college: any) => ({
               id: String(college.id),
               name: college.name,
-            }))
+            })),
           );
         } else {
           setError("Failed to load colleges");
@@ -148,7 +146,6 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-
         sessionStorage.setItem(
           "studentData",
           JSON.stringify({
@@ -157,9 +154,9 @@ const LoginPage: React.FC = () => {
             email: data.student.email,
             registration_number: data.student.registration_number,
             college_name: data.student.college_name,
-          })
+          }),
         );
-       
+
         router.push("/dashboard");
       } else {
         setError(data.error || "Login failed");
@@ -194,7 +191,7 @@ const LoginPage: React.FC = () => {
 
       if (response.ok) {
         sessionStorage.setItem("adminData", JSON.stringify(data.admin));
-        
+
         router.push("/dean-dashboard");
       } else {
         setError(data.error || "Login failed");
@@ -214,7 +211,6 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-2 px-4 sm:px-6 lg:px-8 pt-4 relative overflow-hidden">
-       
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-200/20 to-purple-200/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
 
@@ -276,14 +272,13 @@ const LoginPage: React.FC = () => {
             }
             className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-8 space-y-6 transform transition-all duration-500 hover:shadow-3xl"
           >
-            {/* Email */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Email Address
               </label>
               <div className="relative group">
                 <Mail
-                  className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300  ${
+                  className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 pointer-events-none z-10 ${
                     focusedField === "email" ? "text-blue-600" : "text-gray-400"
                   }`}
                 />
@@ -314,7 +309,8 @@ const LoginPage: React.FC = () => {
                 </label>
                 <div className="relative group">
                   <Hash
-                    className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 ${
+                      className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 pointer-events-none z-10 ${
+
                       focusedField === "registration"
                         ? "text-blue-600"
                         : "text-gray-400"
@@ -348,7 +344,8 @@ const LoginPage: React.FC = () => {
               </label>
               <div className="relative group">
                 <Lock
-                  className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 ${
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 pointer-events-none z-10 ${
+
                     focusedField === "password"
                       ? "text-blue-600"
                       : "text-gray-400"
@@ -391,7 +388,8 @@ const LoginPage: React.FC = () => {
                 </label>
                 <div className="relative group">
                   <GraduationCap
-                    className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 ${
+                      className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300 pointer-events-none z-10 ${
+
                       focusedField === "college"
                         ? "text-blue-600"
                         : "text-gray-400"
@@ -437,8 +435,20 @@ const LoginPage: React.FC = () => {
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer transition-all duration-300"
               />
-              <label htmlFor="terms" className="text-sm font-medium text-gray-700 cursor-pointer">
-                I agree to the <span className="text-blue-600 hover:text-blue-700 hover:underline" onClick={(e) => { e.preventDefault(); setShowTermsModal(true); }}>Terms and Conditions</span>
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium text-gray-700 cursor-pointer"
+              >
+                I agree to the{" "}
+                <span
+                  className="text-blue-600 hover:text-blue-700 hover:underline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowTermsModal(true);
+                  }}
+                >
+                  Terms and Conditions
+                </span>
               </label>
             </div>
 
@@ -496,127 +506,302 @@ const LoginPage: React.FC = () => {
             )}
           </form>
         </div>
-       
       </div>
 
       {showTermsModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col relative shadow-2xl">
-            <button 
+            <button
               onClick={() => setShowTermsModal(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none bg-gray-100/50 hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center z-10 transition-colors"
+              className="cursor-pointer absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none bg-gray-100/50 hover:bg-gray-100 rounded-full w-8 h-8 flex items-center justify-center z-10 transition-colors"
             >
               ✕
             </button>
-            
+
             <div className="p-6 md:p-8 border-b shrink-0">
-              <h2 className="text-2xl font-bold text-gray-900">Terms and Conditions</h2>
+              <h2 className="text-2xl font-bold text-gray-900">
+                Terms and Conditions
+              </h2>
             </div>
-            
+
             <div className="p-6 md:p-8 overflow-y-auto">
               <div className="prose prose-sm md:prose-base text-gray-700 space-y-4">
-                <h3 className="text-lg font-semibold text-gray-800">1. Purpose & Scope</h3>
-                <p>This Data Protection & Management Policy (“Policy”) outlines how CELTM Global Pvt Ltd (“CELTM,” “we,” “our,” or “us”) collects, processes, stores, and protects personal data.</p>
-                <p>Our primary compliance framework is the <strong>Digital Personal Data Protection Act, 2023 (DPDPA)</strong> of India. In addition, CELTM adheres to internationally accepted principles of fairness, transparency, security, and accountability, ensuring alignment with global data protection standards.</p>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  1. Purpose & Scope
+                </h3>
+                <p>
+                  This Data Protection & Management Policy (“Policy”) outlines
+                  how CELTM Global Pvt Ltd (“CELTM,” “we,” “our,” or “us”)
+                  collects, processes, stores, and protects personal data.
+                </p>
+                <p>
+                  Our primary compliance framework is the{" "}
+                  <strong>
+                    Digital Personal Data Protection Act, 2023 (DPDPA)
+                  </strong>{" "}
+                  of India. In addition, CELTM adheres to internationally
+                  accepted principles of fairness, transparency, security, and
+                  accountability, ensuring alignment with global data protection
+                  standards.
+                </p>
                 <p>This Policy applies to:</p>
                 <ul className="list-disc pl-5">
-                  <li>All personal data processed by CELTM, across our websites, products, services, and operations.</li>
-                  <li>All employees, contractors, and third-party service providers acting on behalf of CELTM.</li>
-                </ul>
-                
-                <hr className="my-4" />
-
-                <h3 className="text-lg font-semibold text-gray-800">2. Key Definitions</h3>
-                <ul className="list-disc pl-5">
-                  <li><strong>Personal Data:</strong> Any information that can identify an individual directly or indirectly (e.g., name, email, phone, government ID).</li>
-                  <li><strong>Sensitive Personal Data:</strong> Includes financial information, biometric identifiers, health data, etc.</li>
-                  <li><strong>Data Fiduciary/Controller:</strong> CELTM, as the entity that determines how and why personal data is processed.</li>
-                  <li><strong>Data Processor:</strong> Third parties that process personal data on behalf of CELTM (e.g., cloud providers).</li>
-                  <li><strong>Consent:</strong> Freely given, informed, specific, and unambiguous indication of agreement by the Data Principal/Subject.</li>
+                  <li>
+                    All personal data processed by CELTM, across our websites,
+                    products, services, and operations.
+                  </li>
+                  <li>
+                    All employees, contractors, and third-party service
+                    providers acting on behalf of CELTM.
+                  </li>
                 </ul>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">3. Core Data Collection Principles</h3>
-                <p>CELTM is committed to the following principles in handling personal data:</p>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  2. Key Definitions
+                </h3>
                 <ul className="list-disc pl-5">
-                  <li><strong>Lawful & Fair Use:</strong> Data is collected and processed only for lawful and legitimate purposes.</li>
-                  <li><strong>Consent Driven:</strong> Consent is explicit, informed, and revocable.</li>
-                  <li><strong>Data Minimization:</strong> Only the minimum data necessary for the purpose is collected.</li>
-                  <li><strong>Purpose Limitation:</strong> Data is used only for the purposes stated at the time of collection.</li>
-                  <li><strong>Security:</strong> Strong safeguards protect data from misuse, unauthorized access, or loss.</li>
-                  <li><strong>Transparency:</strong> Individuals are informed about how their data is used.</li>
+                  <li>
+                    <strong>Personal Data:</strong> Any information that can
+                    identify an individual directly or indirectly (e.g., name,
+                    email, phone, government ID).
+                  </li>
+                  <li>
+                    <strong>Sensitive Personal Data:</strong> Includes financial
+                    information, biometric identifiers, health data, etc.
+                  </li>
+                  <li>
+                    <strong>Data Fiduciary/Controller:</strong> CELTM, as the
+                    entity that determines how and why personal data is
+                    processed.
+                  </li>
+                  <li>
+                    <strong>Data Processor:</strong> Third parties that process
+                    personal data on behalf of CELTM (e.g., cloud providers).
+                  </li>
+                  <li>
+                    <strong>Consent:</strong> Freely given, informed, specific,
+                    and unambiguous indication of agreement by the Data
+                    Principal/Subject.
+                  </li>
                 </ul>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">4. Data Collection & Processing</h3>
-                <h4 className="font-medium text-gray-800 mt-2">Categories of Data We Collect</h4>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  3. Core Data Collection Principles
+                </h3>
+                <p>
+                  CELTM is committed to the following principles in handling
+                  personal data:
+                </p>
                 <ul className="list-disc pl-5">
-                  <li><strong>Personal Data:</strong> Name, email, phone number, postal address, institutional or employment details.</li>
-                  <li><strong>Usage Data:</strong> IP address, browser type, device details, site interactions.</li>
-                  <li><strong>Transaction Data:</strong> Records of payments and services availed.</li>
+                  <li>
+                    <strong>Lawful & Fair Use:</strong> Data is collected and
+                    processed only for lawful and legitimate purposes.
+                  </li>
+                  <li>
+                    <strong>Consent Driven:</strong> Consent is explicit,
+                    informed, and revocable.
+                  </li>
+                  <li>
+                    <strong>Data Minimization:</strong> Only the minimum data
+                    necessary for the purpose is collected.
+                  </li>
+                  <li>
+                    <strong>Purpose Limitation:</strong> Data is used only for
+                    the purposes stated at the time of collection.
+                  </li>
+                  <li>
+                    <strong>Security:</strong> Strong safeguards protect data
+                    from misuse, unauthorized access, or loss.
+                  </li>
+                  <li>
+                    <strong>Transparency:</strong> Individuals are informed
+                    about how their data is used.
+                  </li>
                 </ul>
-                <h4 className="font-medium text-gray-800 mt-2">Basis of Processing</h4>
+
+                <hr className="my-4" />
+
+                <h3 className="text-lg font-semibold text-gray-800">
+                  4. Data Collection & Processing
+                </h3>
+                <h4 className="font-medium text-gray-800 mt-2">
+                  Categories of Data We Collect
+                </h4>
+                <ul className="list-disc pl-5">
+                  <li>
+                    <strong>Personal Data:</strong> Name, email, phone number,
+                    postal address, institutional or employment details.
+                  </li>
+                  <li>
+                    <strong>Usage Data:</strong> IP address, browser type,
+                    device details, site interactions.
+                  </li>
+                  <li>
+                    <strong>Transaction Data:</strong> Records of payments and
+                    services availed.
+                  </li>
+                </ul>
+                <h4 className="font-medium text-gray-800 mt-2">
+                  Basis of Processing
+                </h4>
                 <p>Data is processed based on:</p>
                 <ul className="list-disc pl-5">
-                  <li><strong>Explicit Consent</strong> (e.g., registrations, newsletters, workshop sign-ups).</li>
-                  <li><strong>Legal Obligations</strong> (compliance with laws, audits, regulatory reporting).</li>
-                  <li><strong>Legitimate Use</strong> (employment, contractual performance, IT security, business operations).</li>
+                  <li>
+                    <strong>Explicit Consent</strong> (e.g., registrations,
+                    newsletters, workshop sign-ups).
+                  </li>
+                  <li>
+                    <strong>Legal Obligations</strong> (compliance with laws,
+                    audits, regulatory reporting).
+                  </li>
+                  <li>
+                    <strong>Legitimate Use</strong> (employment, contractual
+                    performance, IT security, business operations).
+                  </li>
                 </ul>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">5. Consent Management</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  5. Consent Management
+                </h3>
                 <ul className="list-disc pl-5">
-                  <li>Consent is <strong>specific, informed, and freely given</strong> at the time of data collection.</li>
+                  <li>
+                    Consent is{" "}
+                    <strong>specific, informed, and freely given</strong> at the
+                    time of data collection.
+                  </li>
                   <li>Records of consent are securely maintained.</li>
-                  <li>Consent may be <strong>withdrawn anytime</strong> by contacting <a href="mailto:privacy@celtm.com" className="text-blue-600 hover:underline">privacy@celtm.com</a>.</li>
-                  <li>Services dependent on consent withdrawal may be limited, but withdrawal will not impact data lawfully processed before such withdrawal.</li>
+                  <li>
+                    Consent may be <strong>withdrawn anytime</strong> by
+                    contacting{" "}
+                    <a
+                      href="mailto:privacy@celtm.com"
+                      className="text-blue-600 hover:underline"
+                    >
+                      privacy@celtm.com
+                    </a>
+                    .
+                  </li>
+                  <li>
+                    Services dependent on consent withdrawal may be limited, but
+                    withdrawal will not impact data lawfully processed before
+                    such withdrawal.
+                  </li>
                 </ul>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">6. Rights of Individuals</h3>
-                <p>CELTM ensures the following rights under DPDPA and globally recognized principles:</p>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  6. Rights of Individuals
+                </h3>
+                <p>
+                  CELTM ensures the following rights under DPDPA and globally
+                  recognized principles:
+                </p>
                 <ul className="list-disc pl-5">
-                  <li><strong>Right to Access:</strong> Know what personal data is held and how it is processed.</li>
-                  <li><strong>Right to Correction:</strong> Request updates or corrections to inaccurate data.</li>
-                  <li><strong>Right to Erasure:</strong> Request deletion of data, subject to legal or contractual obligations.</li>
-                  <li><strong>Right to Restrict Processing:</strong> Limit how data is processed under certain conditions.</li>
-                  <li><strong>Right to Consent Management:</strong> Review, modify, or withdraw consent at any time.</li>
-                  <li><strong>Right to Data Portability:</strong> Receive data in a structured, commonly used format for transfer to another provider.</li>
-                  <li><strong>Right to Grievance Redressal:</strong> Escalate concerns directly to CELTM’s Grievance Officer.</li>
+                  <li>
+                    <strong>Right to Access:</strong> Know what personal data is
+                    held and how it is processed.
+                  </li>
+                  <li>
+                    <strong>Right to Correction:</strong> Request updates or
+                    corrections to inaccurate data.
+                  </li>
+                  <li>
+                    <strong>Right to Erasure:</strong> Request deletion of data,
+                    subject to legal or contractual obligations.
+                  </li>
+                  <li>
+                    <strong>Right to Restrict Processing:</strong> Limit how
+                    data is processed under certain conditions.
+                  </li>
+                  <li>
+                    <strong>Right to Consent Management:</strong> Review,
+                    modify, or withdraw consent at any time.
+                  </li>
+                  <li>
+                    <strong>Right to Data Portability:</strong> Receive data in
+                    a structured, commonly used format for transfer to another
+                    provider.
+                  </li>
+                  <li>
+                    <strong>Right to Grievance Redressal:</strong> Escalate
+                    concerns directly to CELTM’s Grievance Officer.
+                  </li>
                 </ul>
-                <p>Requests can be sent to <a href="mailto:admin@celtm.com" className="text-blue-600 hover:underline">admin@celtm.com</a> and will be addressed within statutory timelines.</p>
+                <p>
+                  Requests can be sent to{" "}
+                  <a
+                    href="mailto:admin@celtm.com"
+                    className="text-blue-600 hover:underline"
+                  >
+                    admin@celtm.com
+                  </a>{" "}
+                  and will be addressed within statutory timelines.
+                </p>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">7. Data Storage & Retention</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  7. Data Storage & Retention
+                </h3>
                 <ul className="list-disc pl-5">
-                  <li>Data is stored in <strong>secure, access-controlled environments</strong> with encryption at rest and in transit.</li>
-                  <li>Retention is limited to the period necessary for fulfilling the stated purpose or legal obligations.</li>
-                  <li>Data no longer required is securely deleted or anonymized.</li>
+                  <li>
+                    Data is stored in{" "}
+                    <strong>secure, access-controlled environments</strong> with
+                    encryption at rest and in transit.
+                  </li>
+                  <li>
+                    Retention is limited to the period necessary for fulfilling
+                    the stated purpose or legal obligations.
+                  </li>
+                  <li>
+                    Data no longer required is securely deleted or anonymized.
+                  </li>
                 </ul>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">8. Data Sharing & Transfers</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  8. Data Sharing & Transfers
+                </h3>
                 <ul className="list-disc pl-5">
-                  <li>Personal data is <strong>never sold</strong>.</li>
-                  <li>Data may be shared with authorized service providers under strict confidentiality agreements.</li>
-                  <li>Where data is transferred across borders, CELTM ensures equivalent protection measures are in place.</li>
+                  <li>
+                    Personal data is <strong>never sold</strong>.
+                  </li>
+                  <li>
+                    Data may be shared with authorized service providers under
+                    strict confidentiality agreements.
+                  </li>
+                  <li>
+                    Where data is transferred across borders, CELTM ensures
+                    equivalent protection measures are in place.
+                  </li>
                 </ul>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">9. Security & Breach Response</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  9. Security & Breach Response
+                </h3>
                 <ul className="list-disc pl-5">
-                  <li>Multi-layered security including firewalls, encryption, access controls, and monitoring is implemented.</li>
+                  <li>
+                    Multi-layered security including firewalls, encryption,
+                    access controls, and monitoring is implemented.
+                  </li>
                   <li>Employees undergo regular data protection training.</li>
-                  <li>In case of a breach:
+                  <li>
+                    In case of a breach:
                     <ul className="list-disc pl-5 mt-1">
-                      <li>CELTM will notify affected individuals and relevant authorities within required timelines.</li>
+                      <li>
+                        CELTM will notify affected individuals and relevant
+                        authorities within required timelines.
+                      </li>
                       <li>Corrective actions will be taken immediately.</li>
                     </ul>
                   </li>
@@ -624,34 +809,79 @@ const LoginPage: React.FC = () => {
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">10. Grievance Redressal (DPDPA Requirement)</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  10. Grievance Redressal (DPDPA Requirement)
+                </h3>
                 <p>CELTM has appointed a Grievance Officer:</p>
-                <p className="font-medium text-gray-800 mt-2">Grievance Officer</p>
+                <p className="font-medium text-gray-800 mt-2">
+                  Grievance Officer
+                </p>
                 <p>Name: Harish K</p>
-                <p>📧 Email: <a href="mailto:office@celtm.com" className="text-blue-600 hover:underline">office@celtm.com</a></p>
-                <p className="mt-2">Complaints will be acknowledged within <strong>24 hours</strong> and resolved within <strong>10 business days</strong>.</p>
+                <p>
+                  📧 Email:{" "}
+                  <a
+                    href="mailto:office@celtm.com"
+                    className="text-blue-600 hover:underline"
+                  >
+                    office@celtm.com
+                  </a>
+                </p>
+                <p className="mt-2">
+                  Complaints will be acknowledged within{" "}
+                  <strong>24 hours</strong> and resolved within{" "}
+                  <strong>10 business days</strong>.
+                </p>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">11. Accountability & Review</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  11. Accountability & Review
+                </h3>
                 <ul className="list-disc pl-5">
-                  <li>CELTM’s management and Data Protection Officer oversee compliance with this Policy.</li>
-                  <li>This Policy will be reviewed annually or sooner if laws change.</li>
-                  <li>Updates will be published on <a href="http://www.celtm.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.celtm.com</a>.</li>
+                  <li>
+                    CELTM’s management and Data Protection Officer oversee
+                    compliance with this Policy.
+                  </li>
+                  <li>
+                    This Policy will be reviewed annually or sooner if laws
+                    change.
+                  </li>
+                  <li>
+                    Updates will be published on{" "}
+                    <a
+                      href="http://www.celtm.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      www.celtm.com
+                    </a>
+                    .
+                  </li>
                 </ul>
 
                 <hr className="my-4" />
 
-                <h3 className="text-lg font-semibold text-gray-800">12. Contact</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  12. Contact
+                </h3>
                 <p>For questions, concerns, or rights requests:</p>
-                <p>📧 <a href="mailto:admin@celtm.com" className="text-blue-600 hover:underline">admin@celtm.com</a></p>
+                <p>
+                  📧{" "}
+                  <a
+                    href="mailto:admin@celtm.com"
+                    className="text-blue-600 hover:underline"
+                  >
+                    admin@celtm.com
+                  </a>
+                </p>
               </div>
             </div>
-            
+
             <div className="p-6 border-t bg-gray-50 rounded-b-2xl flex justify-end shrink-0">
               <button
                 onClick={() => setShowTermsModal(false)}
-                className="px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition-colors mr-3"
+                className="cursor-pointer px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition-colors mr-3"
               >
                 Close
               </button>
@@ -660,7 +890,7 @@ const LoginPage: React.FC = () => {
                   setAgreedToTerms(true);
                   setShowTermsModal(false);
                 }}
-                className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                className="cursor-pointer px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
               >
                 I Agree
               </button>
