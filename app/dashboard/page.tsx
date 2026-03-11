@@ -10,11 +10,8 @@ import {
   BookUser,
   Play,
   Settings,
-  BarChart3,
-  Clock,
   CheckCircle,
   ArrowRight,
-  Bell,
 } from "lucide-react";
 
 interface StudentData {
@@ -23,7 +20,7 @@ interface StudentData {
   email: string;
   registration_number: string;
   college_name: string;
-  org_id?: number; // Added org_id
+  org_id?: number;
 }
 
 interface AssessmentType {
@@ -32,10 +29,8 @@ interface AssessmentType {
   description: string;
 }
 
-// Helper function to get cookie by name
 function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
-
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) {
@@ -87,7 +82,7 @@ const DashboardPage = () => {
     if (studentData) {
       const fetchAssessmentTypes = async () => {
         try {
-          const org_id = studentData.org_id || 1; // Default to 1 if not present
+          const org_id = studentData.org_id || 1;
           const response = await fetch(
             `/api/assessment-types?org_id=${org_id}`,
           );
@@ -147,90 +142,43 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <User className="h-5 w-5 text-white" />
-                </div>
-              </div>
-              <div className="ml-3">
-                <h1 className="text-xl font-semibold text-gray-900">
-                  Student Portal
-                </h1>
-              </div>
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setShowLogoutConfirm(false)}
+          />
+          <div className="relative bg-white rounded-2xl shadow-2xl p-6 w-80 mx-4 flex flex-col gap-4">
+            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mx-auto">
+              <LogOut className="h-6 w-6 text-red-500" />
             </div>
-
-            {/* User Menu */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3">
-                <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <User className="h-4 w-4 text-blue-600" />
-                </div>
-                <div className="hidden md:block text-right">
-                  <p className="text-sm font-medium text-gray-900">
-                    {studentData.name}
-                  </p>
-                  <p className="text-xs text-gray-500">Student</p>
-                </div>
-              </div>
-
+            <div className="text-center">
+              <h2 className="text-lg font-semibold text-gray-900">Log out?</h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Are you sure you want to log out of your account?
+              </p>
+            </div>
+            <div className="flex gap-3 mt-1">
               <button
-                onClick={() => setShowLogoutConfirm(true)}
-                className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
               >
-                <LogOut className="h-5 w-5" />
+                Cancel
               </button>
-
-              {showLogoutConfirm && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center">
-                  <div
-                    className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-                    onClick={() => setShowLogoutConfirm(false)}
-                  />
-
-                  <div className="relative bg-white rounded-2xl shadow-2xl p-6 w-80 mx-4 flex flex-col gap-4">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mx-auto">
-                      <LogOut className="h-6 w-6 text-red-500" />
-                    </div>
-
-                    <div className="text-center">
-                      <h2 className="text-lg font-semibold text-gray-900">
-                        Log out?
-                      </h2>
-                      <p className="text-sm text-gray-500 mt-1">
-                        Are you sure you want to log out of your account?
-                      </p>
-                    </div>
-
-                    <div className="flex gap-3 mt-1">
-                      <button
-                        onClick={() => setShowLogoutConfirm(false)}
-                        className="flex-1 px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={() => {
-                          setShowLogoutConfirm(false);
-                          handleLogout();
-                        }}
-                        className="flex-1 px-4 py-2 rounded-lg bg-red-500 text-sm font-medium text-white hover:bg-red-600 transition-colors cursor-pointer"
-                      >
-                        Log out
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <button
+                onClick={() => {
+                  setShowLogoutConfirm(false);
+                  handleLogout();
+                }}
+                className="flex-1 px-4 py-2 rounded-lg bg-red-500 text-sm font-medium text-white hover:bg-red-600 transition-colors cursor-pointer"
+              >
+                Log out
+              </button>
             </div>
           </div>
         </div>
-      </header>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -251,10 +199,11 @@ const DashboardPage = () => {
                 </div>
               </div>
 
+              {/* Info Fields */}
               <div className="p-6 space-y-4">
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                  <div>
+                  <Mail className="h-5 w-5 text-gray-400 shrink-0" />
+                  <div className="min-w-0">
                     <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                       Email
                     </p>
@@ -265,7 +214,7 @@ const DashboardPage = () => {
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <BookUser className="h-5 w-5 text-gray-400" />
+                  <BookUser className="h-5 w-5 text-gray-400 shrink-0" />
                   <div>
                     <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                       Registration
@@ -277,7 +226,7 @@ const DashboardPage = () => {
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <GraduationCap className="h-5 w-5 text-gray-400" />
+                  <GraduationCap className="h-5 w-5 text-gray-400 shrink-0" />
                   <div>
                     <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                       College
@@ -287,6 +236,17 @@ const DashboardPage = () => {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              {/* Logout Button */}
+              <div className="px-6 pb-6">
+                <button
+                  onClick={() => setShowLogoutConfirm(true)}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-red-200 text-sm font-medium text-red-600 hover:bg-red-50 hover:border-red-300 transition-colors cursor-pointer"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Log Out
+                </button>
               </div>
             </div>
           </div>
@@ -313,7 +273,6 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            {/* Assessment Section */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
@@ -375,7 +334,6 @@ const DashboardPage = () => {
                 </div>
               </div>
 
-              {/* Test Type Selection */}
               <div className="max-w-2xl mx-auto mb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <label className="cursor-pointer">
@@ -456,7 +414,6 @@ const DashboardPage = () => {
                 </div>
               </div>
 
-              {/* Start Button */}
               <div className="text-center">
                 <button
                   onClick={handleStartAssessment}
