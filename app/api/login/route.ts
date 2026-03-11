@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { email, registration_number, password, college_id } = body;
+    const { email, registration_number, password, college_id, agreedToTerms } = body;
 
     if (!email || !registration_number || !password || !college_id) {
       return NextResponse.json(
@@ -83,6 +83,20 @@ export async function POST(req: NextRequest) {
         college_name: student.college_name,
       },
     });
+
+    if (agreedToTerms) {
+      const checkboxQuery = `
+        INSERT INTO academic_checkbox (user_id, is_agreed, user_name, college_name)
+        VALUES ($1, $2, $3, $4);
+      `;
+      try {
+        await pool.query(checkboxQuery, [student.id, true, student.name, student.college_name]);
+      } catch (insertErr) {
+        console.error("Failed to insert checkbox agreement:", insertErr);
+        // Continue login process even if recording agreement fails
+      }
+    }
+
     res.headers.set("Set-Cookie", cookie);
 
     return res;
