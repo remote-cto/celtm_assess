@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 export default function Home() {
   return (
     <div>
-      <Navbar />
+     
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -16,7 +16,7 @@ export default function Home() {
       >
         <LandingPage />
       </motion.div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
